@@ -290,4 +290,70 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     */
+
+    // Initialize global email links
+    initializeGlobalEmailLinks();
+
+    function initializeGlobalEmailLinks() {
+        const targetEmail = 'deepthan07@gmail.com';
+        const subject = 'CART-EL Support';
+        const body = 'Hello CART-EL Support Team,';
+        const fullMailto = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+        // 1. Fix existing anchor tags
+        const links = document.querySelectorAll(`a[href*="${targetEmail}"]`);
+        links.forEach(link => {
+            link.href = fullMailto;
+        });
+
+        // 2. Convert plain text email to clickable links
+        const walker = document.createTreeWalker(
+            document.body,
+            NodeFilter.SHOW_TEXT,
+            null,
+            false
+        );
+
+        const nodesToReplace = [];
+        let node;
+
+        while (node = walker.nextNode()) {
+            if (node.parentElement.tagName === 'A' || 
+                node.parentElement.tagName === 'SCRIPT' || 
+                node.parentElement.tagName === 'STYLE' ||
+                node.parentElement.tagName === 'TEXTAREA' ||
+                node.parentElement.tagName === 'INPUT') {
+                continue;
+            }
+
+            if (node.nodeValue.includes(targetEmail)) {
+                nodesToReplace.push(node);
+            }
+        }
+
+        nodesToReplace.forEach(node => {
+            const fragment = document.createDocumentFragment();
+            const parts = node.nodeValue.split(targetEmail);
+
+            parts.forEach((part, index) => {
+                if (part) {
+                    fragment.appendChild(document.createTextNode(part));
+                }
+
+                if (index < parts.length - 1) {
+                    const a = document.createElement('a');
+                    a.href = fullMailto;
+                    a.textContent = targetEmail;
+                    a.style.color = 'var(--primary, #3B82F6)';
+                    a.style.textDecoration = 'none';
+                    a.style.cursor = 'pointer';
+                    a.onmouseover = () => a.style.textDecoration = 'underline';
+                    a.onmouseout = () => a.style.textDecoration = 'none';
+                    fragment.appendChild(a);
+                }
+            });
+
+            node.parentNode.replaceChild(fragment, node);
+        });
+    }
 });
