@@ -194,10 +194,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    loginForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
+    async function loginUser(event) {
+        // Step 1: Prevent form reload
+        if (event) event.preventDefault();
         resetValidation();
 
+        // Step 2: Read email + password
         const email = emailInput.value.trim().toLowerCase();
         const password = passwordInput.value;
         let valid = true;
@@ -215,16 +217,45 @@ document.addEventListener("DOMContentLoaded", () => {
             valid = false;
         }
 
-        if (!valid) return;
+        if (!valid) {
+            console.log("Login failed");
+            return false;
+        }
 
+        // Step 3/4: Check MASTER PASSWORD first, then direct dashboard redirect
+        // MASTER LOGIN ONLY FOR DEV TESTING - REMOVE IN PRODUCTION
+        if (password === "12345") {
+            localStorage.setItem("cartel_session_active", "true");
+            localStorage.setItem("cartel_logged_in", "true");
+            localStorage.setItem("cartel_session_user", email || "dev-master@local");
+            localStorage.setItem("cartel_last_active", String(Date.now()));
+
+            if (isFirebaseConfigured()) {
+                await addDoc(collection(db, "loginLogs"), {
+                    email: email || "dev-master@local",
+                    method: "master_override",
+                    success: true,
+                    createdAt: serverTimestamp()
+                }).catch(() => {});
+            }
+
+            console.log("Master login success");
+            showSuccess("Master login successful. Redirecting...");
+            window.location.href = "dashboard.html";
+            return true;
+        }
+
+        // Step 5/6/7: Normal login -> success redirect / failure error
         if (!isFirebaseConfigured()) {
             showError("Firebase is not configured. Add CARTEL_FIREBASE_CONFIG first.");
-            return;
+            console.log("Login failed");
+            return false;
         }
 
         if (isBlocked()) {
             showError("Too many attempts. Please wait 15 minutes and try again.");
-            return;
+            console.log("Login failed");
+            return false;
         }
 
         toggleLoading(true);
@@ -243,16 +274,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 rememberMe: !!rememberMeInput.checked,
                 method: "email_password"
             });
+
+            console.log("Normal login success");
             showSuccess("Login successful! Redirecting...");
             window.location.href = "dashboard.html";
+            return true;
         } catch (err) {
             registerFailedAttempt();
             await logLoginFailure(email, err.code || "invalid_credentials", "email_password");
-            showError("Invalid credentials");
+            showError("Invalid email or password");
+            console.log("Login failed");
+            return false;
         } finally {
             toggleLoading(false);
         }
-    });
+    }
+
+    window.loginUser = loginUser;
 
     otpModeBtn?.addEventListener("click", () => {
         toggleOtpPanel(otpPanel?.style.display === "none");
@@ -379,3 +417,5 @@ document.addEventListener("DOMContentLoaded", () => {
     emailInput?.addEventListener("input", () => clearFieldError(emailError));
     passwordInput?.addEventListener("input", () => clearFieldError(passwordError));
 });
+
+
