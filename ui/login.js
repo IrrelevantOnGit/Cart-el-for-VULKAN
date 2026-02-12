@@ -1,421 +1,199 @@
-import {
-    fetchSignInMethodsForEmail,
-    sendPasswordResetEmail,
-    signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-import { addDoc, collection, doc, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-import { applyRememberMePersistence, auth, db, isFirebaseConfigured } from "./firebase-config.js";
-import { SessionManager } from "./auth-session.js";
-import { formatOtpCountdown, requestOtp, verifyOtp } from "./otp-auth.js";
+document.addEventListener('DOMContentLoaded', function () {
+    const loginForm = document.getElementById('loginForm');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const passwordToggle = document.getElementById('passwordToggle');
+    const loginBtn = document.getElementById('loginBtn');
+    const errorMessage = document.getElementById('errorMessage');
+    const successMessage = document.getElementById('successMessage');
+    const emailError = document.getElementById('emailError');
+    const passwordError = document.getElementById('passwordError');
 
-document.addEventListener("DOMContentLoaded", () => {
-    const loginForm = document.getElementById("loginForm");
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const passwordToggle = document.getElementById("passwordToggle");
-    const rememberMeInput = document.getElementById("rememberMe");
+    const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+    const resetModalOverlay = document.getElementById('resetModalOverlay');
+    const resetModalClose = document.getElementById('resetModalClose');
+    const resetPasswordForm = document.getElementById('resetPasswordForm');
+    const resetEmailInput = document.getElementById('resetEmailInput');
+    const resetEmailError = document.getElementById('resetEmailError');
+    const resetSuccessMessage = document.getElementById('resetSuccessMessage');
 
-    const loginBtn = document.getElementById("loginBtn");
-    const successMessage = document.getElementById("successMessage");
-    const errorMessage = document.getElementById("errorMessage");
-
-    const emailError = document.getElementById("emailError");
-    const passwordError = document.getElementById("passwordError");
-
-    const forgotPasswordLink = document.getElementById("forgotPasswordLink");
-    const resetModalOverlay = document.getElementById("resetModalOverlay");
-    const resetModalClose = document.getElementById("resetModalClose");
-    const resetPasswordForm = document.getElementById("resetPasswordForm");
-    const resetEmailInput = document.getElementById("resetEmailInput");
-    const resetEmailError = document.getElementById("resetEmailError");
-    const resetSuccessMessage = document.getElementById("resetSuccessMessage");
-
-    const otpModeBtn = document.getElementById("otpModeBtn");
-    const otpPanel = document.getElementById("otpPanel");
-    const otpEmailInput = document.getElementById("otpEmailInput");
-    const otpCodeInput = document.getElementById("otpCodeInput");
-    const sendOtpBtn = document.getElementById("sendOtpBtn");
-    const verifyOtpBtn = document.getElementById("verifyOtpBtn");
-    const otpEmailError = document.getElementById("otpEmailError");
-    const otpCodeError = document.getElementById("otpCodeError");
-    const otpTimer = document.getElementById("otpTimer");
-
-    const ATTEMPT_KEY = "cartel_login_attempts";
-    const ATTEMPT_WINDOW_MS = 15 * 60 * 1000;
-    const MAX_ATTEMPTS = 5;
-
-    let otpRequestId = null;
-    let otpExpiresAtMs = 0;
-    let otpInterval = null;
-
-    if (window.CartelThemeToggle && typeof window.CartelThemeToggle.init === "function") {
+    if (window.CartelThemeToggle && typeof window.CartelThemeToggle.init === 'function') {
         window.CartelThemeToggle.init();
     }
 
-    SessionManager.attachAuthPageRedirect("dashboard.html");
+    if (localStorage.getItem('loggedUser')) {
+        window.location.href = 'dashboard.html';
+        return;
+    }
 
     function validateEmail(email) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
-    function setFieldError(el, msg) {
+    function readUsers() {
+        try {
+            const parsed = JSON.parse(localStorage.getItem('cartel_users') || '[]');
+            return Array.isArray(parsed) ? parsed : [];
+        } catch (_err) {
+            return [];
+        }
+    }
+
+    function showFieldError(el, message) {
         if (!el) return;
-        el.textContent = msg;
-        el.classList.add("show");
+        el.textContent = message;
+        el.classList.add('show');
     }
 
     function clearFieldError(el) {
         if (!el) return;
-        el.classList.remove("show");
-    }
-
-    function showError(msg) {
-        if (!errorMessage) return;
-        errorMessage.textContent = msg;
-        errorMessage.style.display = "flex";
-    }
-
-    function showSuccess(msg) {
-        if (!successMessage) return;
-        successMessage.textContent = msg;
-        successMessage.style.display = "flex";
+        el.classList.remove('show');
     }
 
     function clearMessages() {
-        if (errorMessage) errorMessage.style.display = "none";
-        if (successMessage) successMessage.style.display = "none";
-    }
-
-    function readAttempts() {
-        try {
-            return JSON.parse(localStorage.getItem(ATTEMPT_KEY) || "{}");
-        } catch (_err) {
-            return {};
-        }
-    }
-
-    function writeAttempts(data) {
-        localStorage.setItem(ATTEMPT_KEY, JSON.stringify(data));
-    }
-
-    function registerFailedAttempt() {
-        const current = readAttempts();
-        const now = Date.now();
-        const base = now - Number(current.windowStart || now) > ATTEMPT_WINDOW_MS
-            ? { count: 0, windowStart: now }
-            : current;
-        base.count = Number(base.count || 0) + 1;
-        writeAttempts(base);
-        return base.count;
-    }
-
-    function clearFailedAttempts() {
-        localStorage.removeItem(ATTEMPT_KEY);
-    }
-
-    function isBlocked() {
-        const current = readAttempts();
-        if (!current.windowStart) return false;
-        if (Date.now() - Number(current.windowStart) > ATTEMPT_WINDOW_MS) {
-            clearFailedAttempts();
-            return false;
-        }
-        return Number(current.count || 0) >= MAX_ATTEMPTS;
-    }
-
-    function resetValidation() {
-        [emailError, passwordError, otpEmailError, otpCodeError, resetEmailError].forEach(clearFieldError);
-        clearMessages();
+        clearFieldError(emailError);
+        clearFieldError(passwordError);
+        if (errorMessage) errorMessage.style.display = 'none';
+        if (successMessage) successMessage.style.display = 'none';
     }
 
     function toggleLoading(active) {
+        if (!loginBtn) return;
         loginBtn.disabled = active;
-        loginBtn.classList.toggle("loading", active);
+        loginBtn.classList.toggle('loading', active);
     }
 
-    function toggleOtpPanel(show) {
-        if (!otpPanel) return;
-        otpPanel.style.display = show ? "block" : "none";
+    function showError(text) {
+        if (!errorMessage) return;
+        errorMessage.textContent = text;
+        errorMessage.style.display = 'flex';
     }
 
-    function startOtpCountdown() {
-        stopOtpCountdown();
-        otpInterval = window.setInterval(() => {
-            if (!otpExpiresAtMs || Date.now() >= otpExpiresAtMs) {
-                otpTimer.textContent = "OTP expired";
-                stopOtpCountdown();
-                return;
-            }
-            otpTimer.textContent = "OTP expires in " + formatOtpCountdown(otpExpiresAtMs);
-        }, 1000);
+    function showSuccess(text) {
+        if (!successMessage) return;
+        successMessage.textContent = text;
+        successMessage.style.display = 'flex';
     }
 
-    function stopOtpCountdown() {
-        if (otpInterval) {
-            window.clearInterval(otpInterval);
-            otpInterval = null;
-        }
-    }
-
-    async function logLoginFailure(email, reason, method) {
-        try {
-            await addDoc(collection(db, "loginLogs"), {
-                email,
-                reason,
-                method,
-                success: false,
-                createdAt: serverTimestamp()
-            });
-        } catch (_err) {
-            // Best effort.
-        }
-    }
-
-    function openResetModal() {
-        if (!resetModalOverlay) return;
-        resetModalOverlay.classList.add("show");
-        resetModalOverlay.setAttribute("aria-hidden", "false");
-        clearFieldError(resetEmailError);
-        resetSuccessMessage.style.display = "none";
-        resetPasswordForm.reset();
-        setTimeout(() => resetEmailInput.focus(), 0);
-    }
-
-    function closeResetModal() {
-        if (!resetModalOverlay) return;
-        resetModalOverlay.classList.remove("show");
-        resetModalOverlay.setAttribute("aria-hidden", "true");
-    }
-
-    if (passwordToggle) {
-        passwordToggle.addEventListener("click", () => {
-            const hidden = passwordInput.type === "password";
-            passwordInput.type = hidden ? "text" : "password";
-        });
-    }
-
-    async function loginUser(event) {
-        // Step 1: Prevent form reload
+    function loginUser(event) {
         if (event) event.preventDefault();
-        resetValidation();
+        console.log('Login Clicked');
 
-        // Step 2: Read email + password
-        const email = emailInput.value.trim().toLowerCase();
-        const password = passwordInput.value;
+        clearMessages();
+        toggleLoading(true);
+
+        const email = (emailInput?.value || '').trim().toLowerCase();
+        const password = passwordInput?.value || '';
+
         let valid = true;
-
         if (!email) {
-            setFieldError(emailError, "Email is required");
+            showFieldError(emailError, 'Email is required');
             valid = false;
         } else if (!validateEmail(email)) {
-            setFieldError(emailError, "Please enter a valid email address");
+            showFieldError(emailError, 'Please enter a valid email address');
             valid = false;
         }
 
         if (!password) {
-            setFieldError(passwordError, "Password is required");
+            showFieldError(passwordError, 'Password is required');
             valid = false;
         }
 
         if (!valid) {
-            console.log("Login failed");
-            return false;
-        }
-
-        // Step 3/4: Check MASTER PASSWORD first, then direct dashboard redirect
-        // MASTER LOGIN ONLY FOR DEV TESTING - REMOVE IN PRODUCTION
-        if (password === "12345") {
-            localStorage.setItem("cartel_session_active", "true");
-            localStorage.setItem("cartel_logged_in", "true");
-            localStorage.setItem("cartel_session_user", email || "dev-master@local");
-            localStorage.setItem("cartel_last_active", String(Date.now()));
-
-            if (isFirebaseConfigured()) {
-                await addDoc(collection(db, "loginLogs"), {
-                    email: email || "dev-master@local",
-                    method: "master_override",
-                    success: true,
-                    createdAt: serverTimestamp()
-                }).catch(() => {});
-            }
-
-            console.log("Master login success");
-            showSuccess("Master login successful. Redirecting...");
-            window.location.href = "dashboard.html";
-            return true;
-        }
-
-        // Step 5/6/7: Normal login -> success redirect / failure error
-        if (!isFirebaseConfigured()) {
-            showError("Firebase is not configured. Add CARTEL_FIREBASE_CONFIG first.");
-            console.log("Login failed");
-            return false;
-        }
-
-        if (isBlocked()) {
-            showError("Too many attempts. Please wait 15 minutes and try again.");
-            console.log("Login failed");
-            return false;
-        }
-
-        toggleLoading(true);
-
-        try {
-            await applyRememberMePersistence(!!rememberMeInput.checked);
-            const credential = await signInWithEmailAndPassword(auth, email, password);
-            const user = credential.user;
-
-            await updateDoc(doc(db, "users", user.uid), {
-                lastLogin: serverTimestamp()
-            }).catch(() => {});
-
-            clearFailedAttempts();
-            await SessionManager.completeLogin(user, {
-                rememberMe: !!rememberMeInput.checked,
-                method: "email_password"
-            });
-
-            console.log("Normal login success");
-            showSuccess("Login successful! Redirecting...");
-            window.location.href = "dashboard.html";
-            return true;
-        } catch (err) {
-            registerFailedAttempt();
-            await logLoginFailure(email, err.code || "invalid_credentials", "email_password");
-            showError("Invalid email or password");
-            console.log("Login failed");
-            return false;
-        } finally {
+            showError('Invalid email or password');
+            console.log('Login failed');
             toggleLoading(false);
+            return false;
         }
+
+        // MASTER LOGIN ONLY FOR DEV TESTING - REMOVE IN PRODUCTION
+        if (password === '12345') {
+            localStorage.setItem('loggedUser', email || 'master@cartel.ai');
+            localStorage.setItem('cartel_logged_in', 'true');
+            localStorage.setItem('cartel_last_active', String(Date.now()));
+            console.log('Master Login Used');
+            showSuccess('Login successful! Redirecting...');
+            window.location.href = 'dashboard.html';
+            return true;
+        }
+
+        const users = readUsers();
+        const matched = users.find(function (user) {
+            return user.email === email && user.password === password;
+        });
+
+        if (matched) {
+            localStorage.setItem('loggedUser', email);
+            localStorage.setItem('cartel_logged_in', 'true');
+            localStorage.setItem('cartel_last_active', String(Date.now()));
+            console.log('Normal login success');
+            showSuccess('Login successful! Redirecting...');
+            window.location.href = 'dashboard.html';
+            return true;
+        }
+
+        showError('Invalid email or password');
+        console.log('Login failed');
+        toggleLoading(false);
+        return false;
     }
 
     window.loginUser = loginUser;
 
-    otpModeBtn?.addEventListener("click", () => {
-        toggleOtpPanel(otpPanel?.style.display === "none");
-        if (otpEmailInput && emailInput && emailInput.value.trim()) {
-            otpEmailInput.value = emailInput.value.trim();
-        }
-    });
+    if (passwordToggle && passwordInput) {
+        passwordToggle.addEventListener('click', function () {
+            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+        });
+    }
 
-    sendOtpBtn?.addEventListener("click", async () => {
-        resetValidation();
-        const email = (otpEmailInput.value || emailInput.value).trim().toLowerCase();
+    if (loginForm && !loginForm.hasAttribute('onsubmit')) {
+        loginForm.addEventListener('submit', loginUser);
+    }
 
-        if (!validateEmail(email)) {
-            setFieldError(otpEmailError, "Please enter a valid email address");
-            return;
-        }
+    if (forgotPasswordLink && resetModalOverlay) {
+        forgotPasswordLink.addEventListener('click', function (event) {
+            event.preventDefault();
+            resetModalOverlay.classList.add('show');
+            resetModalOverlay.setAttribute('aria-hidden', 'false');
+            if (resetSuccessMessage) resetSuccessMessage.style.display = 'none';
+            clearFieldError(resetEmailError);
+            if (resetPasswordForm) resetPasswordForm.reset();
+        });
+    }
 
-        if (!isFirebaseConfigured()) {
-            showError("Firebase is not configured. Add CARTEL_FIREBASE_CONFIG first.");
-            return;
-        }
+    if (resetModalClose && resetModalOverlay) {
+        resetModalClose.addEventListener('click', function () {
+            resetModalOverlay.classList.remove('show');
+            resetModalOverlay.setAttribute('aria-hidden', 'true');
+        });
+    }
 
-        try {
-            const methods = await fetchSignInMethodsForEmail(auth, email);
-            if (!methods.length) {
-                setFieldError(otpEmailError, "No account found for this email");
+    if (resetModalOverlay) {
+        resetModalOverlay.addEventListener('click', function (event) {
+            if (event.target === resetModalOverlay) {
+                resetModalOverlay.classList.remove('show');
+                resetModalOverlay.setAttribute('aria-hidden', 'true');
+            }
+        });
+    }
+
+    if (resetPasswordForm) {
+        resetPasswordForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const resetEmail = (resetEmailInput?.value || '').trim().toLowerCase();
+
+            clearFieldError(resetEmailError);
+            if (resetSuccessMessage) resetSuccessMessage.style.display = 'none';
+
+            if (!resetEmail || !validateEmail(resetEmail)) {
+                showFieldError(resetEmailError, 'Please enter a valid email address');
                 return;
             }
 
-            const otp = await requestOtp(email);
-            otpRequestId = otp.requestId;
-            otpExpiresAtMs = otp.expiresAtMs;
-            startOtpCountdown();
-            showSuccess("OTP sent to your email. Please verify within 5 minutes.");
-        } catch (_err) {
-            showError("Network error while sending OTP");
-        }
-    });
-
-    verifyOtpBtn?.addEventListener("click", async () => {
-        resetValidation();
-        const email = (otpEmailInput.value || emailInput.value).trim().toLowerCase();
-        const otpCode = otpCodeInput.value.trim();
-
-        if (!validateEmail(email)) {
-            setFieldError(otpEmailError, "Please enter a valid email address");
-            return;
-        }
-
-        if (!/^\d{6}$/.test(otpCode)) {
-            setFieldError(otpCodeError, "Enter a 6-digit OTP");
-            return;
-        }
-
-        if (!otpRequestId) {
-            setFieldError(otpCodeError, "Request OTP first");
-            return;
-        }
-
-        try {
-            const result = await verifyOtp(otpRequestId, email, otpCode);
-            if (!result.ok) {
-                setFieldError(otpCodeError, result.message === "OTP expired" ? "OTP expired" : result.message);
-                return;
+            if (resetSuccessMessage) {
+                resetSuccessMessage.textContent = 'Password reset link sent to your email';
+                resetSuccessMessage.style.display = 'flex';
             }
-
-            // OTP login mode (demo): enterprise apps should exchange OTP for a backend-issued custom token.
-            localStorage.setItem("cartel_session_active", "true");
-            localStorage.setItem("cartel_logged_in", "true");
-            localStorage.setItem("cartel_session_user", email);
-            localStorage.setItem("cartel_last_active", String(Date.now()));
-
-            await addDoc(collection(db, "loginLogs"), {
-                email,
-                method: "otp_email",
-                success: true,
-                createdAt: serverTimestamp()
-            });
-
-            showSuccess("OTP verified. Redirecting...");
-            window.location.href = "dashboard.html";
-        } catch (_err) {
-            showError("Unable to verify OTP. Please try again.");
-        }
-    });
-
-    forgotPasswordLink?.addEventListener("click", (e) => {
-        e.preventDefault();
-        openResetModal();
-    });
-
-    resetModalClose?.addEventListener("click", closeResetModal);
-
-    resetModalOverlay?.addEventListener("click", (e) => {
-        if (e.target === resetModalOverlay) closeResetModal();
-    });
-
-    resetPasswordForm?.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        clearFieldError(resetEmailError);
-        resetSuccessMessage.style.display = "none";
-
-        const resetEmail = resetEmailInput.value.trim().toLowerCase();
-
-        if (!validateEmail(resetEmail)) {
-            setFieldError(resetEmailError, "Please enter a valid email address");
-            return;
-        }
-
-        if (!isFirebaseConfigured()) {
-            setFieldError(resetEmailError, "Firebase is not configured yet.");
-            return;
-        }
-
-        try {
-            await sendPasswordResetEmail(auth, resetEmail);
-            resetSuccessMessage.textContent = "Password reset link sent to your email";
-            resetSuccessMessage.style.display = "flex";
-        } catch (_err) {
-            setFieldError(resetEmailError, "Network error. Please try again.");
-        }
-    });
-
-    emailInput?.addEventListener("input", () => clearFieldError(emailError));
-    passwordInput?.addEventListener("input", () => clearFieldError(passwordError));
+        });
+    }
 });
-
-

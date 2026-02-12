@@ -99,6 +99,21 @@ body {
     color: var(--primary-blue);
 }
 
+.main-logo {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    transition: filter 0.3s ease;
+}
+
+.main-logo:hover {
+    filter: brightness(1.08);
+}
+
+.sidebar-logo {
+    height: 36px;
+}
+
 .logo svg {
     color: var(--primary-blue);
 }
@@ -243,10 +258,15 @@ body {
     display: inline-flex;
     flex-direction: column;
     justify-content: center;
+    gap: 3px;
     text-decoration: none;
     line-height: 1.1;
     animation: logoFadeIn 0.8s ease-out both, logoPulse 4s ease-in-out infinite 1s;
     transition: filter 0.25s ease;
+}
+
+.topbar-logo {
+    height: 34px;
 }
 
 .header-brand:hover {
@@ -1655,6 +1675,10 @@ canvas {
 
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 1024px) {
+    .main-logo {
+        height: 38px;
+    }
+
     .sidebar {
         width: 260px;
         left: -260px;
@@ -1786,6 +1810,10 @@ canvas {
 }
 
 @media (max-width: 480px) {
+    .main-logo {
+        height: 30px;
+    }
+
     .main-content {
         padding: 12px;
     }

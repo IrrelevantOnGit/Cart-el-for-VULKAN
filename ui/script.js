@@ -1,8 +1,13 @@
 // ===== AUTHENTICATION CHECK =====
 const currentPage = window.location.pathname.split('/').pop();
 const protectedPages = ['dashboard.html', 'profile.html'];
-if (protectedPages.includes(currentPage) && localStorage.getItem('cartel_logged_in') !== 'true') {
-    window.location.href = 'login.html';
+if (protectedPages.includes(currentPage)) {
+    const loggedUser = localStorage.getItem('loggedUser');
+    if (!loggedUser) {
+        window.location.href = 'login.html';
+    } else {
+        console.log('Dashboard Access Granted');
+    }
 }
 
 // ===== DOM ELEMENTS =====
@@ -786,13 +791,15 @@ function initializeProfileAvatar() {
 
 // ===== LOGOUT FUNCTIONALITY =====
 function initializeLogout() {
+    if (!logoutBtn) return;
+    if (logoutBtn.dataset.boundLogout === '1') return;
+    logoutBtn.dataset.boundLogout = '1';
+
     logoutBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        if (window.CartelSessionManager && typeof window.CartelSessionManager.logoutAndRedirect === 'function') {
-            window.CartelSessionManager.logoutAndRedirect('Signed out', 'login.html');
-            return;
-        }
-        localStorage.clear();
+        localStorage.removeItem('loggedUser');
+        localStorage.removeItem('cartel_logged_in');
+        localStorage.removeItem('cartel_last_active');
         window.location.href = 'login.html';
     });
 }

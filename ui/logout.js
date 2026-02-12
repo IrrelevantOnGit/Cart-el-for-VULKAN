@@ -1,11 +1,17 @@
-import { SessionManager } from "./auth-session.js";
+import { SessionManager } from "./session.js";
 
 export async function logoutUser(redirectPath = "login.html") {
     await SessionManager.logoutAndRedirect("Signed out", redirectPath);
 }
 
 function attachLogoutHandlers() {
-    SessionManager.attachProtectedGuard("login.html");
+    const logoutBtn = document.getElementById("logoutBtn") || document.getElementById("logoutButton");
+    if (!logoutBtn) return;
+
+    logoutBtn.addEventListener("click", async (event) => {
+        event.preventDefault();
+        await logoutUser("login.html");
+    });
 }
 
 if (document.readyState === "loading") {

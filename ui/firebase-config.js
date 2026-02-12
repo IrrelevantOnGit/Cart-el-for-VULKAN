@@ -17,6 +17,21 @@ export const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
+export const AUTH_FEATURE_FLAGS = {
+    // Development only. Keep false in production.
+    enableMasterOverride: Boolean(window.CARTEL_ENABLE_MASTER_OVERRIDE) || false,
+    // Backend endpoint validates master password server-side.
+    masterOverrideEndpoint: window.CARTEL_MASTER_OVERRIDE_ENDPOINT || "/api/dev/master-login",
+    // Optional lightweight bot protection delay (ms)
+    minHumanDelayMs: 1200
+};
+
+export const EXAMPLE_TEST_USERS = [
+    { email: "demo@cartel.ai", note: "Primary demo account" },
+    { email: "ops@cartel.ai", note: "Operations test account" },
+    { email: "finance@cartel.ai", note: "Finance test account" }
+];
+
 export async function applyRememberMePersistence(rememberMe) {
     await setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
 }
