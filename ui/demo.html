@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CART-EL Live Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="landing.css">
+    <link rel="stylesheet" href="theme-toggle.css">
+    <link rel="stylesheet" href="demo.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="landing-header">
+        <div class="container header-content">
+            <a href="index.html" class="logo" style="text-decoration: none;">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="32" rx="8" fill="#3B82F6"/>
+                    <path d="M8 12L16 8L24 12V20L16 24L8 20V12Z" fill="white"/>
+                    <path d="M12 14L16 16L20 14" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>CART-EL</span>
+            </a>
+            <nav class="landing-nav">
+                <a href="index.html">Home</a>
+                <a href="#dashboard-demo">Dashboard</a>
+                <a href="#analytics-demo">Analytics</a>
+                <a href="#cta">Start Trial</a>
+            </nav>
+            <div class="auth-buttons">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme"></button>
+                <div class="profile-dropdown" id="profileDropdown">
+                    <button class="profile-avatar" id="profileAvatar">
+                        <span class="profile-avatar-initials" id="profileAvatarInitials">DH</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="demo-main">
+        <section class="demo-hero reveal" id="top">
+            <div class="container hero-grid">
+                <div>
+                    <p class="hero-label">Live Experience</p>
+                    <h1>CART-EL Live Product Demo</h1>
+                    <p class="hero-subtitle">Experience AI-powered retail intelligence in real time.</p>
+                    <div class="hero-actions">
+                        <a href="signup.html" class="btn-primary ripple-btn">Start Free Trial</a>
+                        <a href="contact.html" class="btn-secondary ripple-btn">Contact Sales</a>
+                    </div>
+                </div>
+                <div class="hero-glass">
+                    <p class="mini-label">System Status</p>
+                    <h3>Realtime demo stream active</h3>
+                    <p>Metrics refresh every 5 seconds with simulated business activity and AI recommendations.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section reveal" id="dashboard-demo">
+            <div class="container">
+                <div class="section-head">
+                    <h2>Live Dashboard Simulation</h2>
+                    <p>Interactive KPI cards with real-time updates.</p>
+                </div>
+                <div class="kpi-grid">
+                    <article class="demo-card">
+                        <h3>Revenue Today</h3>
+                        <p class="kpi-value" id="kpiRevenue">Rs 1,45,230</p>
+                        <span class="kpi-delta positive" id="deltaRevenue">+3.2%</span>
+                    </article>
+                    <article class="demo-card">
+                        <h3>Orders</h3>
+                        <p class="kpi-value" id="kpiOrders">1,429</p>
+                        <span class="kpi-delta positive" id="deltaOrders">+1.4%</span>
+                    </article>
+                    <article class="demo-card">
+                        <h3>Visitors</h3>
+                        <p class="kpi-value" id="kpiVisitors">12,234</p>
+                        <span class="kpi-delta" id="deltaVisitors">-0.6%</span>
+                    </article>
+                    <article class="demo-card">
+                        <h3>Conversion Rate</h3>
+                        <p class="kpi-value" id="kpiConversion">8.2%</p>
+                        <span class="kpi-delta positive" id="deltaConversion">+0.4%</span>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section reveal" id="analytics-demo">
+            <div class="container">
+                <div class="section-head">
+                    <h2>Analytics Charts Demo</h2>
+                    <p>Revenue trend, customer activity, and retention health.</p>
+                </div>
+                <div class="charts-grid">
+                    <article class="chart-card"><h3>Revenue Line Chart</h3><div class="chart-wrap"><canvas id="revenueChartDemo"></canvas></div></article>
+                    <article class="chart-card"><h3>Customer Activity Bar Chart</h3><div class="chart-wrap"><canvas id="activityChartDemo"></canvas></div></article>
+                    <article class="chart-card"><h3>Retention Donut Chart</h3><div class="chart-wrap"><canvas id="retentionChartDemo"></canvas></div></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section reveal" id="cta">
+            <div class="container">
+                <div class="cta-card">
+                    <h2>Ready to unlock retail intelligence at scale?</h2>
+                    <p>Start your CART-EL rollout with AI-powered decisions, adaptive analytics, and performance-focused automation.</p>
+                    <div class="cta-actions">
+                        <a href="signup.html" class="btn-primary ripple-btn">Start Free Trial</a>
+                        <a href="contact.html" class="btn-secondary ripple-btn">Book Live Demo</a>
+                        <a href="mailto:deepthan07@gmail.com" class="btn-secondary ripple-btn">Contact Support</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="mrx-demo" id="mrxDemo">
+        <button class="mrx-fab" id="mrxFab" aria-label="Open Mr X demo assistant">
+            <span class="orb"></span>
+            <span>Mr X</span>
+        </button>
+
+        <aside class="mrx-panel" id="mrxPanelDemo" aria-label="Mr X demo panel">
+            <header class="mrx-head">
+                <div>
+                    <h4>Mr X AI Demo</h4>
+                    <p>Super Intelligence Assistant</p>
+                </div>
+                <button id="mrxCloseDemo" class="mrx-close" aria-label="Close">x</button>
+            </header>
+            <div class="mrx-quick">
+                <button class="quick-btn">Show revenue insights</button>
+                <button class="quick-btn">Predict next month sales</button>
+                <button class="quick-btn">Best selling product?</button>
+            </div>
+            <div class="mrx-chat" id="mrxChat">
+                <div class="mrx-msg bot">Mr X online. Ask for insights and I will simulate strategic recommendations.</div>
+            </div>
+            <div class="mrx-input-row">
+                <input type="text" id="mrxInputDemo" placeholder="Ask Mr X anything...">
+                <button id="mrxSendDemo">Send</button>
+            </div>
+        </aside>
+    </div>
+
+    <script src="theme-toggle.js"></script>
+    <script src="demo.js"></script>
+</body>
+</html>

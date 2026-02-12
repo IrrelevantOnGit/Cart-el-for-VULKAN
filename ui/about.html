@@ -9,14 +9,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="landing.css">
     <link rel="stylesheet" href="about.css">
+    <link rel="stylesheet" href="mr-x-ai.css">
+    <link rel="stylesheet" href="theme-toggle.css">
 </head>
 <body>
-    <!-- Header -->
     <header class="landing-header">
         <div class="container header-content">
             <a href="index.html" class="logo" style="text-decoration: none;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                CART-EL
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="32" rx="8" fill="#3B82F6"/>
+                    <path d="M8 12L16 8L24 12V20L16 24L8 20V12Z" fill="white"/>
+                    <path d="M12 14L16 16L20 14" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>CART-EL</span>
             </a>
             <nav class="landing-nav">
                 <a href="index.html">Home</a>
@@ -26,114 +31,116 @@
             </nav>
             <div class="auth-buttons">
                 <a href="login.html" class="btn-secondary">Login</a>
-                <a href="login.html" class="btn-primary">Get Started</a>
+                <a href="signup.html" class="btn-primary">Get Started</a>
             </div>
         </div>
     </header>
 
-    <!-- Hero -->
-    <section class="about-hero-section">
-        <div class="container">
-            <h1 class="fade-in">Revolutionizing <span class="gradient-text">Retail Intelligence</span></h1>
-            <p class="hero-subtitle fade-in delay-1">CART-EL is an AI-powered retail intelligence platform designed for extreme performers who want real-time control over their business performance.</p>
-        </div>
-    </section>
+    <main class="about-main">
+        <section class="about-hero" id="top">
+            <div class="container">
+                <p class="eyebrow fade-in">The CART-EL Story</p>
+                <h1 class="fade-in delay-1">Built For <span class="gradient-text">Extreme Performers</span></h1>
+                <p class="hero-text fade-in delay-2">CART-EL is an AI-powered retail intelligence platform designed for extreme performers who want real-time control over their business performance.</p>
+                <nav class="section-nav fade-in delay-2" aria-label="About page sections">
+                    <a href="#mission">Mission</a>
+                    <a href="#vision">Vision</a>
+                    <a href="#why-cartel">Why CART-EL</a>
+                    <a href="#mrx-ai">Mr. X AI</a>
+                    <a href="#team">Team</a>
+                    <a href="#company-info">Company Info</a>
+                </nav>
+            </div>
+        </section>
 
-    <!-- Mission & Vision -->
-    <section class="mission-section">
-        <div class="container">
-            <div class="mission-grid">
-                <div class="mission-card fade-in-up">
-                    <div class="card-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <section class="section" id="mission">
+            <div class="container">
+                <div class="card fade-in-up">
+                    <h2>Mission</h2>
+                    <p>Help retailers make data-driven decisions instantly.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="vision">
+            <div class="container">
+                <div class="card fade-in-up">
+                    <h2>Vision</h2>
+                    <p>Become global leader in AI retail performance optimization.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="why-cartel">
+            <div class="container">
+                <h2 class="section-title fade-in">Why CART-EL</h2>
+                <div class="card-grid">
+                    <article class="mini-card fade-in-up">
+                        <h3>Built For Modern Retailers</h3>
+                        <p>Architecture and workflows designed around the speed and complexity of modern retail operations.</p>
+                    </article>
+                    <article class="mini-card fade-in-up delay-1">
+                        <h3>Powered By Intelligent Automation</h3>
+                        <p>Automation handles the heavy data work so teams can focus on high-impact decisions and execution.</p>
+                    </article>
+                    <article class="mini-card fade-in-up delay-2">
+                        <h3>Designed For Speed And Performance</h3>
+                        <p>Fast insights, low friction, and a performance-first product experience from dashboard to action.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="mrx-ai">
+            <div class="container">
+                <div class="story-card fade-in-up">
+                    <div>
+                        <p class="eyebrow">AI Story</p>
+                        <h2>Mr. X AI</h2>
+                        <p>Mr. X AI was built to act as digital business intelligence partner.</p>
                     </div>
-                    <h3>Our Mission</h3>
-                    <p>To help retailers make data-driven decisions instantly, eliminating guesswork and maximizing potential.</p>
+                    <div class="story-badge" aria-hidden="true">AI</div>
                 </div>
-                <div class="mission-card fade-in-up delay-1">
-                    <div class="card-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+        </section>
+
+        <section class="section" id="team">
+            <div class="container">
+                <h2 class="section-title fade-in">Team Focus</h2>
+                <div class="card-grid team-grid">
+                    <article class="mini-card fade-in-up">
+                        <h3>Founder / Developer</h3>
+                        <p>Product and platform development across the CART-EL ecosystem.</p>
+                    </article>
+                    <article class="mini-card fade-in-up delay-1">
+                        <h3>AI Engineering Focus</h3>
+                        <p>Building intelligence systems that transform retail data into immediate, practical decisions.</p>
+                    </article>
+                    <article class="mini-card fade-in-up delay-2">
+                        <h3>Retail Intelligence Research</h3>
+                        <p>Continuous research into forecasting, optimization, and performance modeling for retailers.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="company-info">
+            <div class="container">
+                <div class="card info-card fade-in-up">
+                    <div>
+                        <h3>Headquarters</h3>
+                        <p>VIT Vellore, Tamil Nadu, India</p>
                     </div>
-                    <h3>Our Vision</h3>
-                    <p>To become the global leader in AI retail performance optimization, setting the standard for the future of commerce.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Why CART-EL -->
-    <section class="why-section">
-        <div class="container">
-            <h2 class="section-title fade-in">Why CART-EL?</h2>
-            <div class="why-grid">
-                <div class="feature-box fade-in-up">
-                    <h4>Modern Architecture</h4>
-                    <p>Built specifically for modern retailers who demand speed and reliability.</p>
-                </div>
-                <div class="feature-box fade-in-up delay-1">
-                    <h4>Intelligent Automation</h4>
-                    <p>Powered by advanced algorithms that automate complex analysis.</p>
-                </div>
-                <div class="feature-box fade-in-up delay-2">
-                    <h4>Extreme Performance</h4>
-                    <p>Designed for speed, handling massive data streams in real-time.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- AI Story -->
-    <section class="ai-story-section">
-        <div class="container">
-            <div class="ai-story-card fade-in-up">
-                <div class="ai-content">
-                    <h2>Meet <span class="gradient-text">Mr. X</span></h2>
-                    <p>Mr. X wasn't just built to answer questions. He was engineered to act as your digital business intelligence partner. By analyzing millions of data points, Mr. X identifies trends invisible to the human eye.</p>
-                </div>
-                <div class="ai-visual">
-                    <div class="ai-avatar-large">
-                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10h-10V2z"/><path d="M12 12L2.5 12"/></svg>
+                    <div class="divider"></div>
+                    <div>
+                        <h3>Support Email</h3>
+                        <a href="mailto:deepthan07@gmail.com">deepthan07@gmail.com</a>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <!-- Team -->
-    <section class="team-section">
-        <div class="container">
-            <h2 class="section-title fade-in">Leadership</h2>
-            <div class="team-grid">
-                <div class="team-card fade-in-up">
-                    <div class="team-avatar">
-                        <span>F</span>
-                    </div>
-                    <h3>Founder / Developer</h3>
-                    <span class="team-role">AI Engineering Focus</span>
-                    <p>Leading the research in retail intelligence and predictive analytics.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Company Info -->
-    <section class="info-section">
-        <div class="container">
-            <div class="info-card fade-in-up">
-                <div class="info-item">
-                    <h4>Headquarters</h4>
-                    <p>VIT Vellore, Tamil Nadu, India</p>
-                </div>
-                <div class="info-divider"></div>
-                <div class="info-item">
-                    <h4>Support</h4>
-                    <a href="mailto:deepthan07@gmail.com">deepthan07@gmail.com</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
     <footer>
         <div class="container footer-content">
             <div class="footer-brand">
@@ -144,10 +151,19 @@
                 <a href="features.html">Features</a>
                 <a href="pricing.html">Pricing</a>
                 <a href="about.html">About</a>
-                <a href="login.html">Login</a>
+                <a href="contact.html">Contact</a>
             </div>
         </div>
     </footer>
+
     <script src="about.js"></script>
+    <script src="mr-x-ai.js"></script>
+    <script src="theme-toggle.js"></script>
 </body>
 </html>
+
+
+
+
+
+

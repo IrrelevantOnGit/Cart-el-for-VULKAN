@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="landing.css">
+    <link rel="stylesheet" href="mr-x-ai.css">
+    <link rel="stylesheet" href="theme-toggle.css">
 </head>
 <body>
     <header class="landing-header">
@@ -22,7 +24,7 @@
             </div>
             <nav class="landing-nav">
                 <a href="#features">Features</a>
-                <a href="#pricing">Pricing</a>
+                <a href="pricing.html">Pricing</a>
                 <a href="#about">About</a>
             </nav>
             <div class="auth-buttons">
@@ -45,7 +47,7 @@
                     <p class="hero-subtitle">The ultimate retail intelligence platform. Analyze, optimize, and dominate your market with real-time data.</p>
                     <div class="hero-actions">
                         <a href="signup.html" class="btn-primary btn-lg">Start Free Trial</a>
-                        <a href="#demo" class="btn-secondary btn-lg">View Demo</a>
+                        <a href="demo.html" class="btn-secondary btn-lg">View Demo</a>
                     </div>
                 </div>
                 <div class="hero-image">
@@ -168,56 +170,12 @@
     </div>
 
     <script src="script.js"></script>
+    <script src="mr-x-ai.js"></script>
+    <script src="theme-toggle.js"></script>
 </body>
 </html>
-    </div>
 
-    <!-- AI Assistant Panel -->
-    <div class="ai-assistant" id="aiAssistant">
-        <div class="ai-toggle" id="aiToggle">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 6L6 18M6 6l12 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
-        <div class="ai-panel" id="aiPanel">
-            <div class="ai-header">
-                <div class="ai-info">
-                    <div class="ai-avatar">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9.75 9.75C9.75 8.50736 10.7574 7.5 12 7.5C13.2426 7.5 14.25 8.50736 14.25 9.75C14.25 10.9926 13.2426 12 12 12C10.7574 12 9.75 10.9926 9.75 9.75Z" fill="#3B82F6"/>
-                            <path d="M6 20.25C6 16.5221 9.02208 13.5 12.75 13.5H13.5C16.3995 13.5 18.75 15.8505 18.75 18.75V19.5C18.75 20.3284 18.0784 21 17.25 21H7.5C6.67157 21 6 20.3284 6 19.5V20.25Z" fill="#3B82F6"/>
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.25C6.61522 2.25 2.25 6.61522 2.25 12C2.25 17.3848 6.61522 21.75 12 21.75C17.3848 21.75 21.75 17.3848 21.75 12C21.75 6.61522 17.3848 2.25 12 2.25ZM3.75 12C3.75 7.44365 7.44365 3.75 12 3.75C16.5563 3.75 20.25 7.44365 20.25 12C20.25 16.5563 16.5563 20.25 12 20.25C7.44365 20.25 3.75 16.5563 3.75 12Z" fill="#3B82F6"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <h4>Mr. X</h4>
-                        <span class="ai-status online">Senior Strategist</span>
-                    </div>
-                </div>
-                <button class="ai-close" id="aiClose">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-            </div>
-            <div class="ai-messages" id="aiMessages">
-                <div class="ai-message bot">
-                    <div class="message-avatar">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9.75 9.75C9.75 8.50736 10.7574 7.5 12 7.5C13.2426 7.5 14.25 8.50736 14.25 9.75C14.25 10.9926 13.2426 12 12 12C10.7574 12 9.75 10.9926 9.75 9.75Z" fill="#3B82F6"/>
-                            <path d="M6 20.25C6 16.5221 9.02208 13.5 12.75 13.5H13.5C16.3995 13.5 18.75 15.8505 18.75 18.75V19.5C18.75 20.3284 18.0784 21 17.25 21H7.5C6.67157 21 6 20.3284 6 19.5V20.25Z" fill="#3B82F6"/>
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.25C6.61522 2.25 2.25 6.61522 2.25 12C2.25 17.3848 6.61522 21.75 12 21.75C17.3848 21.75 21.75 17.3848 21.75 12C21.75 6.61522 17.3848 2.25 12 2.25ZM3.75 12C3.75 7.44365 7.44365 3.75 12 3.75C16.5563 3.75 20.25 7.44365 20.25 12C20.25 16.5563 16.5563 20.25 12 20.25C7.44365 20.25 3.75 16.5563 3.75 12Z" fill="#3B82F6"/>
-                        </svg>
-                    </div>
-                    <div class="message-content">
-                        <p>I am Mr. X, your Senior Data Strategist. I'm ready to analyze your metrics.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="ai-input">
-                <input type="text" id="aiInput" placeholder="Ask me anything about your data..." />
-                <button id="aiSend">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round
+
+
+
+

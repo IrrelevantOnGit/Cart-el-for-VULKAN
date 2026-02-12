@@ -1,0 +1,34 @@
+<!-- Mr X AI Panel Component -->
+<section class="mrx-ai-root" id="mrxAiRoot" aria-live="polite">
+  <button class="mrx-toggle" id="mrxToggle" aria-label="Open Mr X assistant" title="Mr X - CART-EL Super Intelligence Assistant">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M12 2L14.6 8.1L21 9L16.2 13.4L17.4 20L12 16.8L6.6 20L7.8 13.4L3 9L9.4 8.1L12 2Z" fill="white"/>
+    </svg>
+  </button>
+
+  <div class="mrx-panel" id="mrxPanel" role="dialog" aria-label="Mr X chat panel" aria-modal="false">
+    <header class="mrx-head">
+      <div class="mrx-brand">
+        <div class="mrx-orb" aria-hidden="true"></div>
+        <div>
+          <p class="mrx-title">Mr X - CART-EL Super Intelligence Assistant</p>
+          <p class="mrx-subtitle">Business intelligence partner</p>
+        </div>
+      </div>
+      <button class="mrx-close" id="mrxClose" aria-label="Close assistant">x</button>
+    </header>
+
+    <div class="mrx-messages" id="mrxMessages"></div>
+
+    <div class="mrx-input-wrap">
+      <p class="mrx-access-note">Can read dashboard analytics/reports. Cannot access passwords, payment credentials, or login credentials.</p>
+      <div class="mrx-input-row">
+        <input id="mrxInput" class="mrx-input" type="text" placeholder="Ask about revenue, trends, pricing, demand, or navigation"/>
+        <button id="mrxVoice" class="mrx-voice" aria-label="Voice input" title="Voice input">Voice</button>
+        <button id="mrxSend" class="mrx-send" aria-label="Send message">Send</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
