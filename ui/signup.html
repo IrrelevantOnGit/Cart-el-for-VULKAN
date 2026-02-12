@@ -17,10 +17,11 @@
                 <h1>Create Account</h1>
                 <p>Join the extreme performers</p>
             </div>
-            <form id="loginForm" class="login-form">
+            <form id="signupForm" class="login-form">
                 <div class="form-group">
                     <label for="name">Full Name</label>
                     <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                    <span class="error-message" id="nameError"></span>
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -34,6 +35,13 @@
                     </div>
                     <span class="error-message" id="passwordError"></span>
                 </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="password-container">
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                    </div>
+                    <span class="error-message" id="confirmPasswordError"></span>
+                </div>
                 <button type="submit" class="login-btn" id="loginBtn">
                     <span class="btn-text">Sign Up</span>
                     <div class="spinner" id="spinner"></div>
@@ -46,12 +54,15 @@
                 <div class="success-message" id="successMessage">
                     Account created! Redirecting...
                 </div>
+                <div class="error-message" id="errorMessage">
+                    Unable to create account. Please try again.
+                </div>
             </div>
         </div>
     </div>
-    <script src="login.js"></script>
     <script src="mr-x-ai.js"></script>
     <script src="theme-toggle.js"></script>
+    <script type="module" src="signup.js"></script>
 </body>
 </html>
 

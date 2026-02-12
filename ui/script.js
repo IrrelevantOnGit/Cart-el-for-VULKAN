@@ -788,9 +788,11 @@ function initializeProfileAvatar() {
 function initializeLogout() {
     logoutBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        // Clear all local storage data
+        if (window.CartelSessionManager && typeof window.CartelSessionManager.logoutAndRedirect === 'function') {
+            window.CartelSessionManager.logoutAndRedirect('Signed out', 'login.html');
+            return;
+        }
         localStorage.clear();
-        // Redirect to login page
         window.location.href = 'login.html';
     });
 }
