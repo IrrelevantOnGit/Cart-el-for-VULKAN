@@ -1,5 +1,5 @@
 -- Top 3 Products by Revenue
-SELECT 
+SELECT
     dp.product_name,
     SUM(fs.total_amount) AS total_revenue
 FROM fact_sales fs
@@ -34,7 +34,7 @@ JOIN dim_date dd ON fs.date_id = dd.date_id
 GROUP BY dd.month_name
 ORDER BY monthly_sales DESC;
 
--- Profit Margin by Store (if you define margin = total_amount - cost, you’d need a cost column)
+-- Profit Margin by Store (if you define margin = total_amount - cost, you'd need a cost column)
 SELECT
   ds.store_name,
   SUM(fs.total_amount) AS total_revenue

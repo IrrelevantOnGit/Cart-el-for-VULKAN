@@ -1,96 +1,106 @@
-# 🛒 Data Warehouse for Retail
+# Data Warehouse for Retail (DuckDB)
 
-This project simulates a star-schema data warehouse for a fictional retail company. It includes sales, customers, products, time, and location dimensions designed for analytics and reporting. The warehouse is built using T-SQL and is ideal for running performance-optimized queries and KPIs.
+This project simulates a star-schema data warehouse for a retail business.
+It includes one fact table (`fact_sales`) and four dimensions (`dim_product`,
+`dim_customer`, `dim_store`, `dim_date`) for analytics and KPI reporting.
 
----
+## Tech and SQL dialect
 
-## 📌 Problem Statement
+- Database: DuckDB (serverless, local file or in-memory)
+- SQL dialect: DuckDB SQL
 
-Retail companies must analyze large volumes of transactions to optimize inventory, understand customer behavior, and monitor profitability across regions and time periods. This project structures that raw data into a star schema for fast, reliable querying.
+## Project structure
 
----
-
-## 🧱 Schema Design
-
-The star schema consists of:
-
-- `fact_sales`: central sales transaction table
-- `dim_product`: product details
-- `dim_customer`: customer demographics
-- `dim_store`: location info
-- `dim_date`: time dimension
-
----
-
-## 🔁 Workflow
-
-1. Model schema using ERD principles
-2. Generate SQL DDL statements to create tables
-3. Populate with sample data
-4. Run optimized SQL queries for KPIs
-
----
-
-## 📂 Project Structure
-
-```
-data-warehouse-for-retail/
-├── sql/
-│ ├── 01_create_star_schema.sql
-│ ├── 02_insert_mock_data.sql
-│ └── 03_kpi_queries.sql
-├── data/
-│ ├── fact_sales.csv
-│ ├── dim_customer.csv
-│ └── ...
-├── images/
-│ └── (screenshots of queries or schema)
-└── README.md
+```text
+data-warehouse-for-retail-main/
+|-- sql/
+|   |-- 01_create_star_schema.sql
+|   |-- 02_insert_mock_data.sql
+|   `-- 03_kpi_queries.sql
+|-- data/
+|   |-- fact_sales.csv
+|   |-- dim_customer.csv
+|   |-- dim_date.csv
+|   |-- dim_product.csv
+|   `-- dim_store.csv
+`-- images/
 ```
 
----
+## What was fixed
 
-## 🖼️ Visual Overview
+- Aligned `dim_date` schema with insert/query columns.
+- Switched `is_weekend` to `BOOLEAN` for DuckDB.
+- Replaced `TOP 3` with `LIMIT 3` in KPI query.
+- Kept optional columns in `dim_customer` and `dim_store` nullable so current
+  inserts work without extra values.
 
-### 1. Star Schema Creation (SQL)
-![Star Schema](images/1_create_star_schema.png)
+## How to run
 
-### 2. Insert Mock Data
-![Insert Mock Data](images/2_insert_mock_data.png)
+### Option A: Run with Python DuckDB package
 
-### 3. KPI Queries
-![KPI Queries](images/3_kpi_queries.png)
+1. Install:
 
-### 4. Git Terminal Commands
-![Git Terminal](images/4_terminal_git_commit_push.png)
+```powershell
+python -m pip install duckdb
+```
 
----
+2. Execute all SQL files:
 
-## 🚀 Key Features
+```powershell
+python - <<'PY'
+import duckdb
+from pathlib import Path
 
-- Star schema modeling with dimension & fact tables
-- Optimized joins for analytics
-- Sample insights: top customers, product sales, regional trends
-- Ready for Power BI or reporting integration
+base = Path("data-warehouse-for-retail-main")
+con = duckdb.connect()
 
----
+for f in ["sql/01_create_star_schema.sql", "sql/02_insert_mock_data.sql"]:
+    con.execute((base / f).read_text())
 
-## 📊 Example Queries
+queries = (base / "sql/03_kpi_queries.sql").read_text().split(";")
+for i, q in enumerate([x.strip() for x in queries if x.strip()], start=1):
+    print(f"\n--- Query {i} ---")
+    print(con.execute(q).fetchdf())
+PY
+```
 
-- Top 10 Products by Revenue
-- Monthly Sales Trend
-- Profit Margin by Store
-- Customer Lifetime Value
+### Option B: DuckDB CLI (if installed)
 
----
+```powershell
+duckdb retail.duckdb
+```
 
-## 🏅 Author & Certifications
+Then inside DuckDB:
 
-**Felipe Castro**  
-Data Analytics Engineer @ EPAM Systems
+```sql
+.read sql/01_create_star_schema.sql
+.read sql/02_insert_mock_data.sql
+.read sql/03_kpi_queries.sql
+```
 
-- 🏅 **[DP-700: Microsoft Certified: Fabric Data Engineer Associate](https://learn.microsoft.com/api/credentials/share/en-us/FelipeCastro-8026/96572499DF943EBC?sharingId=13D660F56C1DFFA3)**
-- 🏅 **[DP-600: Microsoft Certified: Fabric Analytics Engineer Associate](https://learn.microsoft.com/api/credentials/share/en-us/FelipeCastro-8026/6C5A2F5A8A5864FC?sharingId=13D660F56C1DFFA3)**
-- 🏅 **[PL-300: Microsoft Certified: Power BI Data Analyst Associate](https://learn.microsoft.com/api/credentials/share/en-us/FelipeCastro-8026/F853AABE365874B3?sharingId=13D660F56C1DFFA3)**
+## Current KPIs included
 
----
+- Top products by revenue
+- Sales by region
+- Weekday vs weekend sales
+- Monthly sales trend
+- Revenue by store
+- Customer lifetime value
+
+## Suggested next improvements
+
+1. Add realistic data volumes:
+   - Generate 100k+ `fact_sales` rows and richer dimension values.
+2. Add production-style constraints:
+   - Add `NOT NULL` and `CHECK` constraints.
+3. Add indexes for performance:
+   - Add indexes on fact foreign keys and date.
+4. Add cost and margin modeling:
+   - Add `unit_cost` and gross margin KPIs.
+5. Add ETL/ELT flow:
+   - Load CSV files into staging tables, then merge into dimensions/facts.
+6. Add dbt models and tests:
+   - Source freshness, uniqueness, relationship, and accepted-values tests.
+7. Add BI layer:
+   - Build a Power BI or Streamlit dashboard over KPI outputs.
+

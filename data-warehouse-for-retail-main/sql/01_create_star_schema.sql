@@ -39,11 +39,10 @@ CREATE TABLE dim_store (
 -- Create dimension: Date
 CREATE TABLE dim_date (
     date_id DATE PRIMARY KEY,
-    day INT,
-    month INT,
+    day_of_week VARCHAR(10),
+    month_name VARCHAR(20),
     quarter INT,
     year INT,
-    weekday_name VARCHAR(10),
     is_weekend BOOLEAN
 );
 
