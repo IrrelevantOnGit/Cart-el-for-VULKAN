@@ -1,0 +1,4 @@
+product_id,product_name,category,subcategory,brand,unit_price
+1,Laptop,Electronics,Computers,Dell,900.0
+2,Smartphone,Electronics,Phones,Samsung,700.0
+3,Headphones,Electronics,Audio,Sony,150.0
