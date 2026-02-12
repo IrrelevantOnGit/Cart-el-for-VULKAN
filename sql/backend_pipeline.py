@@ -43,23 +43,31 @@ def populate_date_dimension(con):
     con.execute("INSERT OR IGNORE INTO dim_date SELECT * FROM df_dates_staging")
     con.unregister('df_dates_staging')
 
-def generate_raw_pos_data(num_rows=100):
+def generate_raw_pos_data(num_rows=5000):
     """Simulate raw data ingestion from a POS system."""
     print(f"Simulating ingestion of {num_rows} POS records...")
+    
+    # Product Price Mapping (matches SQL data)
+    product_prices = {
+        1: 120000.00, 2: 80000.00, 3: 25000.00, 4: 99000.00, 5: 79000.00,
+        6: 55000.00, 7: 60000.00, 8: 4000.00, 9: 14000.00, 10: 45000.00
+    }
+    
     data = []
     for i in range(num_rows):
         # Simulate some dirty data
         qty = random.randint(1, 5)
         if random.random() < 0.05: qty = -1 # Dirty data: negative quantity
         
+        pid = random.randint(1, 10)
         data.append({
             'transaction_id': f'TXN-{random.randint(2000, 9000)}',
-            'product_id': random.randint(1, 3),
-            'customer_id': random.randint(1, 3),
-            'store_id': random.randint(1, 2),
+            'product_id': pid,
+            'customer_id': random.randint(1, 10),
+            'store_id': random.randint(1, 5),
             'date_id': (datetime(2024, 1, 1) + timedelta(days=random.randint(0, 30))).date(),
             'quantity_sold': qty,
-            'unit_price': random.choice([900.00, 700.00, 150.00]) # Simplified
+            'unit_price': product_prices[pid]
         })
     return pd.DataFrame(data)
 
