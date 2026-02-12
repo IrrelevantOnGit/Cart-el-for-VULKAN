@@ -133,6 +133,27 @@ def run_pipeline():
             ORDER BY revenue DESC LIMIT 3
         """).fetchdf())
         
+        print("\n--- Inventory Alert: Low Stock Items ---")
+        print(con.execute("""
+            SELECT 
+                ds.store_name,
+                dp.product_name,
+                fi.quantity_on_hand,
+                fi.reorder_level
+            FROM fact_inventory fi
+            JOIN dim_product dp ON fi.product_id = dp.product_id
+            JOIN dim_store ds ON fi.store_id = ds.store_id
+            WHERE fi.quantity_on_hand < fi.reorder_level
+        """).fetchdf())
+
+        print("\n--- Logistics: Average Delivery Time (Days) ---")
+        print(con.execute("""
+            SELECT 
+                AVG(delivery_date - shipped_date) AS avg_delivery_days
+            FROM fact_shipments
+            WHERE status = 'Delivered'
+        """).fetchdf())
+
     finally:
         con.close()
 
