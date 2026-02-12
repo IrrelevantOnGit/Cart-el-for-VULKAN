@@ -52,3 +52,32 @@ FROM fact_sales fs
 JOIN dim_customer dc ON fs.customer_id = dc.customer_id
 GROUP BY dc.customer_id, dc.first_name, dc.last_name
 ORDER BY lifetime_value DESC;
+
+-- Inventory Health: Low Stock Alert
+SELECT 
+    ds.store_name,
+    dp.product_name,
+    fi.quantity_on_hand,
+    fi.reorder_level
+FROM fact_inventory fi
+JOIN dim_product dp ON fi.product_id = dp.product_id
+JOIN dim_store ds ON fi.store_id = ds.store_id
+WHERE fi.quantity_on_hand < fi.reorder_level;
+
+-- Operations: Average Delivery Time (Days)
+SELECT 
+    AVG(delivery_date - shipped_date) AS avg_delivery_days
+FROM fact_shipments
+WHERE status = 'Delivered';
+
+-- Market Basket Analysis: Products bought together
+SELECT 
+    p1.product_name AS product_a,
+    p2.product_name AS product_b,
+    COUNT(*) AS times_bought_together
+FROM fact_sales f1
+JOIN fact_sales f2 ON f1.transaction_id = f2.transaction_id AND f1.product_id < f2.product_id
+JOIN dim_product p1 ON f1.product_id = p1.product_id
+JOIN dim_product p2 ON f2.product_id = p2.product_id
+GROUP BY p1.product_name, p2.product_name
+ORDER BY times_bought_together DESC;

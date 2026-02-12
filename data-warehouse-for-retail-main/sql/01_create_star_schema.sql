@@ -1,5 +1,7 @@
 -- Drop tables if they already exist
 DROP TABLE IF EXISTS fact_sales;
+DROP TABLE IF EXISTS fact_inventory;
+DROP TABLE IF EXISTS fact_shipments;
 DROP TABLE IF EXISTS dim_product;
 DROP TABLE IF EXISTS dim_customer;
 DROP TABLE IF EXISTS dim_store;
@@ -12,7 +14,11 @@ CREATE TABLE dim_product (
     category VARCHAR(50),
     subcategory VARCHAR(50),
     brand VARCHAR(50),
-    unit_price DECIMAL(10, 2)
+    unit_price DECIMAL(10, 2),
+    unit_cost DECIMAL(10, 2),
+    valid_from DATE DEFAULT '2023-01-01',
+    valid_to DATE,
+    is_current BOOLEAN DEFAULT TRUE
 );
 
 -- Create dimension: Customer
@@ -24,7 +30,10 @@ CREATE TABLE dim_customer (
     age INT,
     email VARCHAR(100),
     city VARCHAR(50),
-    country VARCHAR(50)
+    country VARCHAR(50),
+    valid_from DATE DEFAULT '2023-01-01',
+    valid_to DATE,
+    is_current BOOLEAN DEFAULT TRUE
 );
 
 -- Create dimension: Store
@@ -49,6 +58,7 @@ CREATE TABLE dim_date (
 -- Create fact table: Sales
 CREATE TABLE fact_sales (
     sales_id INT PRIMARY KEY,
+    transaction_id VARCHAR(50),
     product_id INT,
     customer_id INT,
     store_id INT,
@@ -60,4 +70,28 @@ CREATE TABLE fact_sales (
     FOREIGN KEY (customer_id) REFERENCES dim_customer(customer_id),
     FOREIGN KEY (store_id) REFERENCES dim_store(store_id),
     FOREIGN KEY (date_id) REFERENCES dim_date(date_id)
+);
+
+-- Create fact table: Inventory (Snapshot)
+CREATE TABLE fact_inventory (
+    inventory_id INT PRIMARY KEY,
+    product_id INT,
+    store_id INT,
+    date_id DATE,
+    quantity_on_hand INT,
+    reorder_level INT,
+    FOREIGN KEY (product_id) REFERENCES dim_product(product_id),
+    FOREIGN KEY (store_id) REFERENCES dim_store(store_id),
+    FOREIGN KEY (date_id) REFERENCES dim_date(date_id)
+);
+
+-- Create fact table: Shipments (Logistics)
+CREATE TABLE fact_shipments (
+    shipment_id INT PRIMARY KEY,
+    order_id VARCHAR(50),
+    origin_store_id INT,
+    destination_store_id INT,
+    shipped_date DATE,
+    delivery_date DATE,
+    status VARCHAR(20)
 );
