@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - CART-EL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo" style="text-decoration: none;">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="8" fill="#3B82F6"/>
+                        <path d="M8 12L16 8L24 12V20L16 24L8 20V12Z" fill="white"/>
+                        <path d="M12 14L16 16L20 14" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>CART-EL</span>
+                </a>
+                <button class="sidebar-close" id="sidebarClose">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item active">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="18" y1="20" x2="18" y2="10" stroke="currentColor" stroke-width="2"/>
+                        <line x1="12" y1="20" x2="12" y2="4" stroke="currentColor" stroke-width="2"/>
+                        <line x1="6" y1="20" x2="6" y2="14" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    Analytics
+                </a>
+                <div class="nav-group">
+                    <div class="nav-group-header" id="financeToggle">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 1V23M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Finance
+                        <svg class="nav-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="nav-submenu" id="financeSubmenu">
+                        <a href="#" class="nav-item">Revenue</a>
+                        <a href="#" class="nav-item">Expenses</a>
+                        <a href="#" class="nav-item">Profit</a>
+                    </div>
+                </div>
+                <a href="profile.html" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                        <path d="M19.4 15C19.4 15 20.5 13.5 20.5 12C20.5 10.5 19.4 9 19.4 9M4.6 15C4.6 15 3.5 13.5 3.5 12C3.5 10.5 4.6 9 4.6 9M15 4.6C15 4.6 13.5 3.5 12 3.5C10.5 3.5 9 4.6 9 4.6M15 19.4C15 19.4 13.5 20.5 12 20.5C10.5 20.5 9 19.4 9 19.4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Settings
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="top-navbar">
+                <div class="navbar-left">
+                    <button class="sidebar-toggle" id="sidebarToggle" data-html2canvas-ignore="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <div class="header-brand">
+                        <span class="brand-title">CART-EL</span>
+                        <span class="brand-tagline">Engineered for Extreme Performers</span>
+                    </div>
+                </div>
+                <div class="navbar-center" data-html2canvas-ignore="true">
+                    <div class="search-container">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="11" cy="11" r="8" stroke="#64748B" stroke-width="2"/>
+                            <path d="M21 21L16.65 16.65" stroke="#64748B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <input type="text" placeholder="Search analytics..." />
+                    </div>
+                </div>
+                <div class="navbar-right" data-html2canvas-ignore="true">
+                    <button class="btn-secondary" id="exportReportBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Export Report
+                    </button>
+                    <button class="btn-secondary" id="addWidgetBtn">Add Widget</button>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme"></button>
+                    <div class="notification-wrapper" id="notificationWrapper">
+                        <button class="notification-btn" id="notificationBtn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M13.73 21C13.5542 21.3031 13.3019 21.5547 12.9982 21.7295C12.6946 21.9044 12.3504 21.9965 12 21.9965C11.6496 21.9965 11.3054 21.9044 11.0018 21.7295C10.6982 21.5547 10.4458 21.3031 10.27 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="notification-badge" id="notificationBadge">3</span>
+                        </button>
+                        <div class="notification-dropdown" id="notificationDropdown">
+                            <div class="notification-header">
+                                <h4>Notifications</h4>
+                                <button class="mark-all-read" id="markAllReadBtn">Mark all read</button>
+                            </div>
+                            <div class="notification-list" id="notificationList"></div>
+                        </div>
+                    </div>
+                    <div class="profile-dropdown" id="profileDropdown" data-user-name="Deepthan H">
+                        <button class="profile-avatar" id="profileAvatar">
+                            <img id="profileAvatarImage" alt="Profile avatar" />
+                            <span class="profile-avatar-initials" id="profileAvatarInitials">DH</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- AI Layout Suggestion Banner -->
+            <div id="aiLayoutSuggestion" class="ai-layout-suggestion" style="display: none;"></div>
+
+            <!-- KPI Cards -->
+            <section class="kpi-section">
+                <div class="kpi-card" id="kpi-page-views">
+                    <div class="kpi-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.45801 12C3.73201 7.943 7.52301 5 12.001 5C16.479 5 20.269 7.943 21.543 12C20.269 16.057 16.479 19 12.001 19C7.52301 19 3.73201 16.057 2.45801 12Z" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>Page Views</h3>
+                        <p class="kpi-value">45,231</p>
+                        <span class="kpi-change positive">+12.5%</span>
+                    </div>
+                </div>
+                <div class="kpi-card" id="kpi-visitors">
+                    <div class="kpi-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>Visitors</h3>
+                        <p class="kpi-value">12,234</p>
+                        <span class="kpi-change positive">+8.2%</span>
+                    </div>
+                </div>
+                <div class="kpi-card" id="kpi-clicks">
+                    <div class="kpi-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 15L9 9M15 9L9 15" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>Clicks</h3>
+                        <p class="kpi-value">8,543</p>
+                        <span class="kpi-change positive">+15.3%</span>
+                    </div>
+                </div>
+                <div class="kpi-card" id="kpi-revenue-growth">
+                    <div class="kpi-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20V10" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 20V4" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 20V16" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>Revenue Growth</h3>
+                        <p class="kpi-value">24.5%</p>
+                        <span class="kpi-change positive">+4.2%</span>
+                    </div>
+                </div>
+                <div class="kpi-card" id="kpi-orders">
+                    <div class="kpi-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 7H5C3.89543 7 3 7.89543 3 9V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V9C21 7.89543 20.1046 7 19 7H15M9 7V5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7M9 7H15" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>Orders</h3>
+                        <p class="kpi-value">1,429</p>
+                        <span class="kpi-change positive">+22.1%</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-section">
+                <div class="chart-container" id="chart-revenue">
+                    <h3>Revenue Trend</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                    <div class="ai-insight-panel" id="revenueInsight"></div>
+                </div>
+                <div class="chart-container" id="chart-activity">
+                    <h3>User Activity</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="activityChart"></canvas>
+                    </div>
+                    <div class="ai-insight-panel" id="activityInsight"></div>
+                </div>
+                <div class="chart-container" id="chart-retention">
+                    <h3>Customer Retention</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="retentionChart"></canvas>
+                    </div>
+                    <div class="ai-insight-panel" id="retentionInsight"></div>
+                </div>
+            </section>
+
+            <!-- Data Table -->
+            <section class="table-section">
+                <div class="table-header">
+                    <div>
+                        <h3>Product Intelligence</h3>
+                        <div class="table-ai-suggestion" id="tableAISuggestion" style="display: none;"></div>
+                    </div>
+                    <div class="table-actions">
+                        <select id="tableFilter" class="table-filter">
+                            <option value="all">All Categories</option>
+                            <option value="Widgets">Widgets</option>
+                            <option value="Tools">Tools</option>
+                            <option value="Software">Software</option>
+                        </select>
+                        <input type="text" id="tableSearch" placeholder="Search products..." />
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="data-table" id="productsTable">
+                        <thead>
+                            <tr>
+                                <th data-sort="id">ID <span class="sort-icon"></span></th>
+                                <th data-sort="name">Product Name <span class="sort-icon"></span></th>
+                                <th data-sort="category">Category <span class="sort-icon"></span></th>
+                                <th data-sort="sold">Sold <span class="sort-icon"></span></th>
+                                <th data-sort="revenue">Revenue <span class="sort-icon"></span></th>
+                                <th data-sort="growth">Growth <span class="sort-icon"></span></th>
+                                <th data-sort="rating">Rating <span class="sort-icon"></span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+                <div class="table-pagination">
+                    <button class="pagination-btn" id="prevPage" disabled>&laquo; Previous</button>
+                    <span class="pagination-info" id="pageInfo">Page 1 of 1</span>
+                    <button class="pagination-btn" id="nextPage">Next &raquo;</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- AI Assistant -->
+    <div class="ai-assistant" id="aiAssistant">
+        <div class="ai-toggle" id="aiToggle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 6L6 18M6 6l12 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div class="ai-panel" id="aiPanel">
+            <div class="ai-header">
+                <div class="ai-info">
+                    <div class="ai-avatar"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.75 9.75C9.75 8.50736 10.7574 7.5 12 7.5C13.2426 7.5 14.25 8.50736 14.25 9.75C14.25 10.9926 13.2426 12 12 12C10.7574 12 9.75 10.9926 9.75 9.75Z" fill="#3B82F6"/><path d="M6 20.25C6 16.5221 9.02208 13.5 12.75 13.5H13.5C16.3995 13.5 18.75 15.8505 18.75 18.75V19.5C18.75 20.3284 18.0784 21 17.25 21H7.5C6.67157 21 6 20.3284 6 19.5V20.25Z" fill="#3B82F6"/><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.25C6.61522 2.25 2.25 6.61522 2.25 12C2.25 17.3848 6.61522 21.75 12 21.75C17.3848 21.75 21.75 17.3848 21.75 12C21.75 6.61522 17.3848 2.25 12 2.25ZM3.75 12C3.75 7.44365 7.44365 3.75 12 3.75C16.5563 3.75 20.25 7.44365 20.25 12C20.25 16.5563 16.5563 20.25 12 20.25C7.44365 20.25 3.75 16.5563 3.75 12Z" fill="#3B82F6"/></svg></div>
+                    <div><h4>Mr. X</h4><span class="ai-status online">Senior Strategist</span></div>
+                </div>
+                <button class="ai-close" id="aiClose"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+            <div class="ai-messages" id="aiMessages">
+                <div class="ai-message bot">
+                    <div class="message-avatar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.75 9.75C9.75 8.50736 10.7574 7.5 12 7.5C13.2426 7.5 14.25 8.50736 14.25 9.75C14.25 10.9926 13.2426 12 12 12C10.7574 12 9.75 10.9926 9.75 9.75Z" fill="#3B82F6"/><path d="M6 20.25C6 16.5221 9.02208 13.5 12.75 13.5H13.5C16.3995 13.5 18.75 15.8505 18.75 18.75V19.5C18.75 20.3284 18.0784 21 17.25 21H7.5C6.67157 21 6 20.3284 6 19.5V20.25Z" fill="#3B82F6"/><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.25C6.61522 2.25 2.25 6.61522 2.25 12C2.25 17.3848 6.61522 21.75 12 21.75C17.3848 21.75 21.75 17.3848 21.75 12C21.75 6.61522 17.3848 2.25 12 2.25ZM3.75 12C3.75 7.44365 7.44365 3.75 12 3.75C16.5563 3.75 20.25 7.44365 20.25 12C20.25 16.5563 16.5563 20.25 12 20.25C7.44365 20.25 3.75 16.5563 3.75 12Z" fill="#3B82F6"/></svg></div>
+                    <div class="message-content"><p>I am Mr. X, your Senior Data Strategist. I'm ready to analyze your metrics.</p></div>
+                </div>
+            </div>
+            <div class="ai-input">
+                <input type="text" id="aiInput" placeholder="Ask me anything about your data..." />
+                <button id="aiSend"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-content profile-modal">
+            <div class="modal-header">
+                <h3>Profile Settings</h3>
+                <button class="modal-close" id="closeProfileModal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-upload-section">
+                    <div class="large-avatar">
+                        <img id="modalAvatarPreview" src="" alt="Profile" style="display: none;">
+                        <span id="modalAvatarInitials">DH</span>
+                    </div>
+                    <div class="upload-controls">
+                        <button class="btn-primary" id="modalUploadBtn">Upload Photo</button>
+                        <button class="btn-secondary" id="modalRemoveBtn">Remove</button>
+                        <input type="file" id="modalFileInput" hidden accept="image/png, image/jpeg">
+                    </div>
+                </div>
+                <div class="profile-form">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="modalNameInput" value="Deepthan H">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" value="test@cartel.com" readonly disabled style="opacity: 0.7; cursor: not-allowed;">
+                    </div>
+                </div>
+                <div class="modal-actions" style="margin-top: 24px; display: flex; gap: 12px;">
+                    <button class="btn-secondary" id="logoutBtn" style="flex: 1;">Logout</button>
+                    <button class="btn-primary" id="modalSaveBtn" style="flex: 2;">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Widget Modal -->
+    <div class="modal-overlay" id="widgetModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Widget</h3>
+                <button class="modal-close" id="modalClose">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="widget-category">
+                    <h5>Sales & Finance</h5>
+                    <div class="widget-grid">
+                        <div class="widget-card" data-widget-type="sales">
+                            <div class="widget-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20V10" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 20V4" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 20V16" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                            <h4>Revenue Chart</h4>
+                            <p>Track daily revenue</p>
+                        </div>
+                        <div class="widget-card" data-widget-type="sales">
+                            <div class="widget-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 7H5C3.89543 7 3 7.89543 3 9V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V9C21 7.89543 20.1046 7 19 7H15M9 7V5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7M9 7H15" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                            <h4>Recent Orders</h4>
+                            <p>Latest transactions</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-category">
+                    <h5>Marketing & Analytics</h5>
+                    <div class="widget-grid">
+                        <div class="widget-card" data-widget-type="marketing">
+                            <div class="widget-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                            <h4>User Growth</h4>
+                            <p>Monitor signups</p>
+                        </div>
+                        <div class="widget-card" data-widget-type="marketing">
+                            <div class="widget-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 15L9 9M15 9L9 15" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                            <h4>Campaign Clicks</h4>
+                            <p>Ad performance</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-category">
+                    <h5>Customer Behavior</h5>
+                    <div class="widget-grid">
+                        <div class="widget-card" data-widget-type="behavior">
+                            <div class="widget-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#EF4444" stroke-width="2"/><path d="M12 6v6l4 2" stroke="#EF4444" stroke-width="2"/></svg></div>
+                            <h4>Session Duration</h4>
+                            <p>Avg time on site</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

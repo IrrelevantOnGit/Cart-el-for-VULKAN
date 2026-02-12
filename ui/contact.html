@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - CART-EL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com/css2">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="landing.css">
+</head>
+<body>
+    <header class="landing-header">
+        <div class="container header-content">
+            <a href="index.html" class="logo" style="text-decoration: none;">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="32" rx="8" fill="#3B82F6"/>
+                    <path d="M8 12L16 8L24 12V20L16 24L8 20V12Z" fill="white"/>
+                    <path d="M12 14L16 16L20 14" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>CART-EL</span>
+            </a>
+            <nav class="landing-nav">
+                <a href="index.html#features">Features</a>
+                <a href="index.html#pricing">Pricing</a>
+                <a href="contact.html" style="color: var(--primary-blue);">Contact</a>
+            </nav>
+            <div class="auth-buttons">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme"></button>
+                <div class="profile-dropdown" id="profileDropdown">
+                    <button class="profile-avatar" id="profileAvatar">
+                        <img id="profileAvatarImage" alt="Profile avatar" />
+                        <span class="profile-avatar-initials" id="profileAvatarInitials">DH</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="legal-section">
+        <div class="container">
+            <div class="legal-card">
+                <h1>Get in Touch</h1>
+                <p style="margin-bottom: 48px;">Have questions about CART-EL? We're here to help you optimize your retail performance.</p>
+                
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h3>Contact Information</h3>
+                        <p>Our support team is available Monday through Friday, 9am to 5pm EST.</p>
+                        
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </div>
+                            <div>
+                                <div style="font-weight: 600; color: #0F172A;">Email Support</div>
+                                <a href="mailto:deepthan07@gmail.com?subject=CART-EL%20Support&body=Hello%20CART-EL%20Support%20Team%2C" style="color: #3B82F6; text-decoration: none;">deepthan07@gmail.com</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            </div>
+                            <div>
+                                <div style="font-weight: 600; color: #0F172A;">Headquarters</div>
+                                <div style="color: #64748B;">VIT Vellore, India</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form class="contact-form" onsubmit="event.preventDefault(); alert('Thank you for your message! This is a demo form.');">
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-input" placeholder="John Doe" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-input" placeholder="john@company.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-textarea" placeholder="How can we help you?" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-primary" style="width: 100%; border: none; font-size: 16px; cursor: pointer;">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="brand-title">CART-EL</span>
+                    <p>© 2026 CART-EL Inc. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms & Conditions</a>
+                    <a href="contact.html">Contact Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CART-EL | Retail Intelligence Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="landing.css">
+</head>
+<body>
+    <header class="landing-header">
+        <div class="container header-content">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="32" rx="8" fill="#3B82F6"/>
+                    <path d="M8 12L16 8L24 12V20L16 24L8 20V12Z" fill="white"/>
+                    <path d="M12 14L16 16L20 14" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>CART-EL</span>
+            </div>
+            <nav class="landing-nav">
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#about">About</a>
+            </nav>
+            <div class="auth-buttons">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme"></button>
+                <div class="profile-dropdown" id="profileDropdown">
+                    <button class="profile-avatar" id="profileAvatar">
+                        <img id="profileAvatarImage" alt="Profile avatar" />
+                        <span class="profile-avatar-initials" id="profileAvatarInitials">DH</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Engineered for <span class="gradient-text">Extreme Performers</span></h1>
+                    <p class="hero-subtitle">The ultimate retail intelligence platform. Analyze, optimize, and dominate your market with real-time data.</p>
+                    <div class="hero-actions">
+                        <a href="signup.html" class="btn-primary btn-lg">Start Free Trial</a>
+                        <a href="#demo" class="btn-secondary btn-lg">View Demo</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="dashboard-preview">
+                        <div class="preview-header">
+                            <div class="dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                        </div>
+                        <img src="https://placehold.co/1200x800/1e293b/3b82f6?text=Dashboard+Preview" alt="Dashboard Preview">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Powerful Analytics</h2>
+                    <p>Everything you need to scale your business.</p>
+                </div>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                        </div>
+                        <h3>Real-time Data</h3>
+                        <p>Monitor your sales and traffic as they happen with sub-second latency.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <h3>Customer Insights</h3>
+                        <p>Deep dive into customer behavior and retention metrics.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                        </div>
+                        <h3>AI Predictions</h3>
+                        <p>Forecast trends and inventory needs with our advanced AI models.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="brand-title">CART-EL</span>
+                    <p>© 2026 CART-EL Inc. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms & Conditions</a>
+                    <a href="contact.html">Contact Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Profile Modal -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-content profile-modal">
+            <div class="modal-header">
+                <h3>Profile Settings</h3>
+                <button class="modal-close" id="closeProfileModal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-upload-section">
+                    <div class="large-avatar">
+                        <img id="modalAvatarPreview" src="" alt="Profile" style="display: none;">
+                        <span id="modalAvatarInitials">DH</span>
+                    </div>
+                    <div class="upload-controls">
+                        <button class="btn-primary" id="modalUploadBtn">Upload Photo</button>
+                        <button class="btn-secondary" id="modalRemoveBtn">Remove</button>
+                        <input type="file" id="modalFileInput" hidden accept="image/png, image/jpeg">
+                    </div>
+                </div>
+                <div class="profile-form">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="modalNameInput" value="Deepthan H">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" value="test@cartel.com" readonly disabled style="opacity: 0.7; cursor: not-allowed;">
+                    </div>
+                </div>
+                <div class="modal-actions" style="margin-top: 24px; display: flex; gap: 12px;">
+                    <button class="btn-secondary" id="logoutBtn" style="flex: 1;">Logout</button>
+                    <button class="btn-primary" id="modalSaveBtn" style="flex: 2;">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to Top">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 15l-6-6-6 6"/>
+        </svg>
+    </button>
+
+    <!-- Cookie Consent Banner -->
+    <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-content">
+            <p>We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.</p>
+        </div>
+        <div class="cookie-actions">
+            <button class="btn-secondary" id="cookieDecline">Decline</button>
+            <button class="btn-primary" id="cookieAccept">Accept</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+    </div>
+
+    <!-- AI Assistant Panel -->
+    <div class="ai-assistant" id="aiAssistant">
+        <div class="ai-toggle" id="aiToggle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 6L6 18M6 6l12 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div class="ai-panel" id="aiPanel">
+            <div class="ai-header">
+                <div class="ai-info">
+                    <div class="ai-avatar">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.75 9.75C9.75 8.50736 10.7574 7.5 12 7.5C13.2426 7.5 14.25 8.50736 14.25 9.75C14.25 10.9926 13.2426 12 12 12C10.7574 12 9.75 10.9926 9.75 9.75Z" fill="#3B82F6"/>
+                            <path d="M6 20.25C6 16.5221 9.02208 13.5 12.75 13.5H13.5C16.3995 13.5 18.75 15.8505 18.75 18.75V19.5C18.75 20.3284 18.0784 21 17.25 21H7.5C6.67157 21 6 20.3284 6 19.5V20.25Z" fill="#3B82F6"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.25C6.61522 2.25 2.25 6.61522 2.25 12C2.25 17.3848 6.61522 21.75 12 21.75C17.3848 21.75 21.75 17.3848 21.75 12C21.75 6.61522 17.3848 2.25 12 2.25ZM3.75 12C3.75 7.44365 7.44365 3.75 12 3.75C16.5563 3.75 20.25 7.44365 20.25 12C20.25 16.5563 16.5563 20.25 12 20.25C7.44365 20.25 3.75 16.5563 3.75 12Z" fill="#3B82F6"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4>Mr. X</h4>
+                        <span class="ai-status online">Senior Strategist</span>
+                    </div>
+                </div>
+                <button class="ai-close" id="aiClose">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="ai-messages" id="aiMessages">
+                <div class="ai-message bot">
+                    <div class="message-avatar">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.75 9.75C9.75 8.50736 10.7574 7.5 12 7.5C13.2426 7.5 14.25 8.50736 14.25 9.75C14.25 10.9926 13.2426 12 12 12C10.7574 12 9.75 10.9926 9.75 9.75Z" fill="#3B82F6"/>
+                            <path d="M6 20.25C6 16.5221 9.02208 13.5 12.75 13.5H13.5C16.3995 13.5 18.75 15.8505 18.75 18.75V19.5C18.75 20.3284 18.0784 21 17.25 21H7.5C6.67157 21 6 20.3284 6 19.5V20.25Z" fill="#3B82F6"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.25C6.61522 2.25 2.25 6.61522 2.25 12C2.25 17.3848 6.61522 21.75 12 21.75C17.3848 21.75 21.75 17.3848 21.75 12C21.75 6.61522 17.3848 2.25 12 2.25ZM3.75 12C3.75 7.44365 7.44365 3.75 12 3.75C16.5563 3.75 20.25 7.44365 20.25 12C20.25 16.5563 16.5563 20.25 12 20.25C7.44365 20.25 3.75 16.5563 3.75 12Z" fill="#3B82F6"/>
+                        </svg>
+                    </div>
+                    <div class="message-content">
+                        <p>I am Mr. X, your Senior Data Strategist. I'm ready to analyze your metrics.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="ai-input">
+                <input type="text" id="aiInput" placeholder="Ask me anything about your data..." />
+                <button id="aiSend">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round

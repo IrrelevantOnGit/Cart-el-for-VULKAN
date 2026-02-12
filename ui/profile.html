@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - CART-EL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo" style="text-decoration: none;">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="8" fill="#3B82F6"/>
+                        <path d="M8 12L16 8L24 12V20L16 24L8 20V12Z" fill="white"/>
+                        <path d="M12 14L16 16L20 14" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>CART-EL</span>
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="7" height="7" rx="1" fill="currentColor"/><rect x="14" y="3" width="7" height="7" rx="1" fill="currentColor"/><rect x="14" y="14" width="7" height="7" rx="1" fill="currentColor"/><rect x="3" y="14" width="7" height="7" rx="1" fill="currentColor"/></svg>
+                    Dashboard
+                </a>
+                <a href="profile.html" class="nav-item active">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/><path d="M19.4 15C19.4 15 20.5 13.5 20.5 12C20.5 10.5 19.4 9 19.4 9M4.6 15C4.6 15 3.5 13.5 3.5 12C3.5 10.5 4.6 9 4.6 9M15 4.6C15 4.6 13.5 3.5 12 3.5C10.5 3.5 9 4.6 9 4.6M15 19.4C15 19.4 13.5 20.5 12 20.5C10.5 20.5 9 19.4 9 19.4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Settings
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-navbar">
+                <div class="navbar-left">
+                    <div class="header-brand">
+                        <span class="brand-title">Profile Settings</span>
+                    </div>
+                </div>
+                <div class="navbar-right">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme"></button>
+                    <div class="profile-dropdown" id="profileDropdown" data-user-name="Deepthan H">
+                        <button class="profile-avatar" id="profileAvatar">
+                            <img id="profileAvatarImage" alt="Profile avatar" />
+                            <span class="profile-avatar-initials" id="profileAvatarInitials">DH</span>
+                        </button>
+                        <input id="avatarUploadInput" type="file" accept="image/png, image/jpeg" class="sr-only" />
+                        <div class="dropdown-menu">
+                            <a href="profile.html" class="dropdown-item">View Profile</a>
+                            <button id="uploadAvatarBtn" type="button" class="dropdown-item">Upload New Avatar</button>
+                            <button id="removeAvatarBtn" type="button" class="dropdown-item">Remove Avatar</button>
+                            <a href="#" id="logoutBtn" class="dropdown-item">Logout</a>
+                            <div class="avatar-preview-panel" id="avatarPreviewPanel">
+                                <img id="avatarPreviewImage" alt="Avatar preview" />
+                                <div class="avatar-preview-actions">
+                                    <button id="saveAvatarBtn" type="button" class="btn-primary">Save</button>
+                                    <button id="cancelAvatarBtn" type="button" class="btn-secondary">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="container" style="padding: 24px; max-width: 800px; margin: 0;">
+                <div class="kpi-card" style="flex-direction: column; align-items: flex-start; gap: 24px;">
+                    <h3 style="color: var(--text-primary); font-size: 20px;">Personal Information</h3>
+                    <form style="width: 100%; display: grid; gap: 20px;">
+                        <div style="display: grid; gap: 8px;">
+                            <label style="color: var(--text-;n H" style="background: var(--primary-bg); border: 1px solid var(--border); padding: 12px; border-radius: 8px; color: var(--text-primary);">
+                        </div>
+                        <div style="display: grid; gap: 8px;">
+                            <label style="color: var(--teoundborder: 1px solid var(--border); padding: 12px; border-radius: 8px; color: var(--text-primary);">
+                        </div>
+                        <div style="display: flex; gap: 12px; margin-top: 12px;">
+                            <button type="button" class="btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="kpi-card" style="flex-direction: column; align-items: flex-start; gap: 24px; margin-top: 24px;">
+                    <h3 style="color: var(--text-primary); font-size: 20px;">Dashboard Preferences</h3>
+                    <div style="width: 100%;">
+                        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 16px;">Restore the default arrangement of widgets on your dashboard.</p>
+                        <button type="button" id="resetLayoutBtn" class="btn-secondary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M3 3v5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Reset Layout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
