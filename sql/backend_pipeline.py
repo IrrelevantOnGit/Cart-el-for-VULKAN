@@ -20,6 +20,29 @@ def init_db(con):
     mock_data_sql = (SQL_DIR / "02_insert_mock_data.sql").read_text()
     con.execute(mock_data_sql)
 
+def populate_date_dimension(con):
+    """Ensure dim_date covers the simulation period (Jan 2024)."""
+    print("Populating Date Dimension...")
+    dates = []
+    start_date = datetime(2024, 1, 1)
+    # Generate 32 days to cover the random range
+    for i in range(32):
+        curr = start_date + timedelta(days=i)
+        dates.append({
+            'date_id': curr.date(),
+            'day_of_week': curr.strftime('%A'),
+            'month_name': curr.strftime('%B'),
+            'quarter': (curr.month - 1) // 3 + 1,
+            'year': curr.year,
+            'is_weekend': curr.weekday() >= 5
+        })
+    
+    df_dates = pd.DataFrame(dates)
+    con.register('df_dates_staging', df_dates)
+    # INSERT OR IGNORE skips dates that already exist (like the ones from mock_data.sql)
+    con.execute("INSERT OR IGNORE INTO dim_date SELECT * FROM df_dates_staging")
+    con.unregister('df_dates_staging')
+
 def generate_raw_pos_data(num_rows=100):
     """Simulate raw data ingestion from a POS system."""
     print(f"Simulating ingestion of {num_rows} POS records...")
@@ -46,7 +69,7 @@ def transform_data(df):
     
     # 1. Remove invalid quantities
     initial_count = len(df)
-    df = df[df['quantity_sold'] > 0]
+    df = df[df['quantity_sold'] > 0].copy()
     print(f"  - Removed {initial_count - len(df)} invalid records (negative qty).")
     
     # 2. Calculate total amount
@@ -91,6 +114,7 @@ def run_pipeline():
     
     try:
         init_db(con)
+        populate_date_dimension(con) # Ensure dates exist before loading facts
         
         raw_df = generate_raw_pos_data()
         clean_df = transform_data(raw_df)
