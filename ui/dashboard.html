@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,7 +19,9 @@
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <a href="index.html" class="logo" style="text-decoration: none;">
-                    <img src="assets/logo.png" class="main-logo sidebar-logo" alt="CART-EL logo">
+                    <div class="logo-container">
+                        <img src="./assets/logo.png" class="main-logo sidebar-logo" alt="CART-EL">
+                    </div>
                 </a>
                 <button class="sidebar-close" id="sidebarClose">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -83,7 +85,9 @@
                         </svg>
                     </button>
                     <div class="header-brand">
-                        <img src="assets/logo.png" class="main-logo topbar-logo" alt="CART-EL logo">
+                        <div class="logo-container">
+                            <img src="./assets/logo.png" class="main-logo topbar-logo" alt="CART-EL">
+                        </div>
                         <span class="brand-tagline">Engineered for Extreme Performers</span>
                     </div>
                 </div>
@@ -351,8 +355,12 @@
     <script src="script.js"></script>
     <script src="mr-x-ai.js"></script>
     <script src="theme-toggle.js"></script>
+    <script src="logo-fallback.js"></script>
 </body>
 </html>
+
+
+
 
 
 

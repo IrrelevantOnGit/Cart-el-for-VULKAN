@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,12 +12,14 @@
 <body>
     <div class="login-container">
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme"></button>
-        <div class="login-card">
-            <div class="login-header">
-                <img src="assets/logo.png" class="main-logo login-logo" alt="CART-EL logo">
-                <h1>Welcome Back</h1>
-                <p>Sign in to your account</p>
-            </div>
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="logo-container">
+                        <img src="./assets/logo.png" class="main-logo login-logo" alt="CART-EL">
+                    </div>
+                    <h1>Welcome Back</h1>
+                    <p>Sign in to your account</p>
+                </div>
             <form id="loginForm" class="login-form" onsubmit="return loginUser(event)">
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -113,8 +115,12 @@
     <script src="mr-x-ai.js"></script>
     <script src="theme-toggle.js"></script>
     <script src="login.js"></script>
+    <script src="logo-fallback.js"></script>
 </body>
 </html>
+
+
+
 
 
 

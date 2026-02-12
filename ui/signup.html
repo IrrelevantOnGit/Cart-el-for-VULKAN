@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,12 +12,14 @@
 <body>
     <div class="login-container">
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme"></button>
-        <div class="login-card">
-            <div class="login-header">
-                <img src="assets/logo.png" class="main-logo login-logo" alt="CART-EL logo">
-                <h1>Create Account</h1>
-                <p>Join the extreme performers</p>
-            </div>
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="logo-container">
+                        <img src="./assets/logo.png" class="main-logo login-logo" alt="CART-EL">
+                    </div>
+                    <h1>Create Account</h1>
+                    <p>Join the extreme performers</p>
+                </div>
             <form id="signupForm" class="login-form">
                 <div class="form-group">
                     <label for="name">Full Name</label>
@@ -64,8 +66,12 @@
     <script src="mr-x-ai.js"></script>
     <script src="theme-toggle.js"></script>
     <script src="signup.js"></script>
+    <script src="logo-fallback.js"></script>
 </body>
 </html>
+
+
+
 
 
 
