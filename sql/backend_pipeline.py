@@ -71,6 +71,28 @@ def generate_raw_pos_data(num_rows=5000):
         })
     return pd.DataFrame(data)
 
+def generate_shipment_data(num_rows=200):
+    """Simulate logistics/shipment data."""
+    print(f"Simulating ingestion of {num_rows} Shipment records...")
+    data = []
+    statuses = ['Delivered', 'In-Transit', 'Delayed', 'Shipped']
+    
+    for i in range(num_rows):
+        shipped_dt = datetime(2024, 1, 1) + timedelta(days=random.randint(0, 25))
+        status = random.choices(statuses, weights=[60, 20, 10, 10])[0]
+        delivery_dt = shipped_dt + timedelta(days=random.randint(1, 7)) if status == 'Delivered' else None
+        
+        data.append({
+            'shipment_id': 100 + i, # Start after mock data
+            'order_id': f'ORD-{random.randint(5000, 9999)}',
+            'origin_store_id': random.randint(1, 5),
+            'destination_store_id': random.randint(1, 5),
+            'shipped_date': shipped_dt.date(),
+            'delivery_date': delivery_dt.date() if delivery_dt else None,
+            'status': status
+        })
+    return pd.DataFrame(data)
+
 def transform_data(df):
     """Clean and transform raw data."""
     print("Cleaning data...")
@@ -101,6 +123,17 @@ def load_to_warehouse(con, df):
     """)
     con.unregister('df_staging')
 
+def load_shipments(con, df):
+    """Load shipment data into Fact Table."""
+    print("Loading data into Shipments Fact Table...")
+    con.register('df_ship_staging', df)
+    con.execute("""
+        INSERT INTO fact_shipments (shipment_id, order_id, origin_store_id, destination_store_id, shipped_date, delivery_date, status)
+        SELECT shipment_id, order_id, origin_store_id, destination_store_id, shipped_date, delivery_date, status
+        FROM df_ship_staging
+    """)
+    con.unregister('df_ship_staging')
+
 def optimize_storage(con):
     """Demonstrate Partitioning Strategy (Parquet)."""
     print("Optimizing storage: Exporting to Partitioned Parquet...")
@@ -127,39 +160,83 @@ def run_pipeline():
         raw_df = generate_raw_pos_data()
         clean_df = transform_data(raw_df)
         load_to_warehouse(con, clean_df)
+        
+        ship_df = generate_shipment_data()
+        load_shipments(con, ship_df)
+        
         optimize_storage(con)
         
         print("\nPipeline completed successfully.")
         
         # Verification Query
-        print("\n--- Verification: Top 3 Products by Revenue (Updated) ---")
+        print("\n--- Product Performance Report (All Products) ---")
         print(con.execute("""
-            SELECT dp.product_name, SUM(fs.total_amount) as revenue
+            SELECT dp.product_name, SUM(fs.total_amount) as revenue, SUM(fs.quantity_sold) as units_sold
             FROM fact_sales fs
             JOIN dim_product dp ON fs.product_id = dp.product_id
             GROUP BY dp.product_name
-            ORDER BY revenue DESC LIMIT 3
+            ORDER BY revenue DESC
         """).fetchdf())
         
-        print("\n--- Inventory Alert: Low Stock Items ---")
+        print("\n--- Regional Insights: Best & Worst Selling Items ---")
+        # Using a CTE to calculate sales per region/product, then finding min/max
         print(con.execute("""
-            SELECT 
-                ds.store_name,
-                dp.product_name,
-                fi.quantity_on_hand,
-                fi.reorder_level
-            FROM fact_inventory fi
-            JOIN dim_product dp ON fi.product_id = dp.product_id
-            JOIN dim_store ds ON fi.store_id = ds.store_id
-            WHERE fi.quantity_on_hand < fi.reorder_level
+            WITH RegionalSales AS (
+                SELECT 
+                    ds.region,
+                    dp.product_name,
+                    SUM(fs.quantity_sold) as total_qty
+                FROM fact_sales fs
+                JOIN dim_store ds ON fs.store_id = ds.store_id
+                JOIN dim_product dp ON fs.product_id = dp.product_id
+                GROUP BY ds.region, dp.product_name
+            )
+            SELECT region, product_name, total_qty, 'Most Sold' as type
+            FROM RegionalSales rs1
+            WHERE total_qty = (SELECT MAX(total_qty) FROM RegionalSales rs2 WHERE rs1.region = rs2.region)
+            UNION ALL
+            SELECT region, product_name, total_qty, 'Least Sold' as type
+            FROM RegionalSales rs1
+            WHERE total_qty = (SELECT MIN(total_qty) FROM RegionalSales rs2 WHERE rs1.region = rs2.region)
+            ORDER BY region, type DESC
         """).fetchdf())
 
-        print("\n--- Logistics: Average Delivery Time (Days) ---")
+        print("\n--- Market Basket Analysis (Items Bought Together) ---")
         print(con.execute("""
             SELECT 
-                AVG(delivery_date - shipped_date) AS avg_delivery_days
+                p1.product_name AS product_a,
+                p2.product_name AS product_b,
+                COUNT(*) AS times_bought_together
+            FROM fact_sales f1
+            JOIN fact_sales f2 ON f1.transaction_id = f2.transaction_id AND f1.product_id < f2.product_id
+            JOIN dim_product p1 ON f1.product_id = p1.product_id
+            JOIN dim_product p2 ON f2.product_id = p2.product_id
+            GROUP BY p1.product_name, p2.product_name
+            ORDER BY times_bought_together DESC
+            LIMIT 5
+        """).fetchdf())
+
+        print("\n--- Logistics: Shipment Status Breakdown ---")
+        print(con.execute("""
+            SELECT status, COUNT(*) as count
             FROM fact_shipments
-            WHERE status = 'Delivered'
+            GROUP BY status
+            ORDER BY count DESC
+        """).fetchdf())
+
+        print("\n--- Logistics: Route Efficiency (Avg Days to Deliver) ---")
+        print(con.execute("""
+            SELECT 
+                s1.city as origin,
+                s2.city as destination,
+                CAST(AVG(fs.delivery_date - fs.shipped_date) AS INT) as avg_days
+            FROM fact_shipments fs
+            JOIN dim_store s1 ON fs.origin_store_id = s1.store_id
+            JOIN dim_store s2 ON fs.destination_store_id = s2.store_id
+            WHERE fs.status = 'Delivered'
+            GROUP BY s1.city, s2.city
+            ORDER BY avg_days ASC
+            LIMIT 5
         """).fetchdf())
 
     finally:
