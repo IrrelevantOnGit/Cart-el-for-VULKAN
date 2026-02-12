@@ -1,4 +1,4 @@
-# Smart Retail Supply Chain & Customer Intelligence Platform
+# Cart-el a Smart Retail Supply Chain & Customer Intelligence Platform
 
 ## Overview
 This project is a centralized "Data Hub" designed to break down data silos for mid-sized retailers. It integrates data from Point of Sale (POS) systems, inventory management, and logistics networks into a single, high-performance Data Warehouse.
@@ -7,18 +7,18 @@ By leveraging **DuckDB** for analytical processing and a **Star Schema** archite
 
 ## Key Features
 
-### 🏗️ Data Engineering & Architecture
+###  Data Engineering & Architecture
 - **Automated Pipelines**: Python-based ETL process (`backend_pipeline.py`) that ingests, cleans, and transforms raw data.
 - **Star Schema Design**: Optimized data modeling with central Fact tables (Sales, Inventory, Shipments) and descriptive Dimension tables.
 - **Scalable Storage**: Hybrid storage approach using DuckDB for active querying and Partitioned Parquet files for long-term archival.
 - **Data Quality Checks**: Automated handling of schema evolution, missing values, and data anomalies (e.g., negative quantities).
 
-### 📊 Advanced Analytics
+### Advanced Analytics
 - **Commercial KPIs**: Product revenue performance, regional sales breakdown.
 - **Supply Chain Intelligence**: Inventory turnover, low-stock alerts, and delivery time tracking.
 - **Customer Insights**: Market Basket Analysis (products bought together) and customer segmentation.
 
-### 💻 Frontend Dashboard
+### Frontend Dashboard
 - A lightweight HTML/JS dashboard to visualize system status and key metrics.
 
 ## Project Structure
